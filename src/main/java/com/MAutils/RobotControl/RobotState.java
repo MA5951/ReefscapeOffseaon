@@ -34,7 +34,7 @@ public class RobotState {
 
     public void setState() {
         System.out.println(getStateName());
-        RobotContainer.setRobotState(this);
+        //RobotContainer.setRobotState(this);
         onStateSet.run();
 
         for (StateSubsystem subsystem : subsystemsArry) {
