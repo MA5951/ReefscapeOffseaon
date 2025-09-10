@@ -4,6 +4,7 @@ package frc.robot;
 import com.MAutils.RobotControl.RobotState;
 
 import frc.robot.Subsystem.Arm.ArmConstants;
+import frc.robot.Subsystem.Climb.ClimbConstants;
 import frc.robot.Subsystem.Elevator.ElevatorConstants;
 import frc.robot.Subsystem.Intake.IntakeConstants;
 
@@ -13,7 +14,8 @@ public class RobotConstants {
         "IDLE", 
         IntakeConstants.IDLE,
         ArmConstants.IDLE,
-        ElevatorConstants.IDLE );
+        ElevatorConstants.IDLE,
+        ClimbConstants.IDLE );
     
     public static final RobotState INTAKE = new RobotState(
         "INTAKE",
@@ -42,4 +44,31 @@ public class RobotConstants {
         ArmConstants.BALL_INTAKE,
         ElevatorConstants.BALL_INTAKE);
 
+    public static final RobotState BALL_HOLDING  = new RobotState(
+        "BALL_HOLDING ",
+        IntakeConstants.BALL_HOLD,
+        ArmConstants.BALL_HOLDING,
+        ElevatorConstants.BALL_HOLDING);
+
+    public static final RobotState BALL_SCORING = new RobotState(
+        "BALL_SCORING ",
+        IntakeConstants.BALL_BACKWARD,
+        ArmConstants.BALL_SCORING,
+        ElevatorConstants.BALL_SCORING);
+
+    public static final RobotState PRECLIMBING = new RobotState("PRECLIMBING ",
+        IntakeConstants.IDLE,
+        ArmConstants.IDLE,
+        ElevatorConstants.CLOSE,
+        ClimbConstants.OPEN);
+
+    public static final RobotState CLIMBING = new RobotState("PRECLIMBING ",
+        IntakeConstants.IDLE,
+        ArmConstants.IDLE,
+        ElevatorConstants.CLOSE,
+        ClimbConstants.CLOSE);
+
+    public static final RobotState SORTING = new RobotState(
+        "SORTING", 
+        IntakeConstants.CORAL_SORTING);
 }

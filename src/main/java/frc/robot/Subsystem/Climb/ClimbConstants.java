@@ -8,7 +8,6 @@ import com.MAutils.Utils.GainConfig;
 import com.ctre.phoenix6.signals.InvertedValue;
 
 import frc.robot.PortMap;
-import frc.robot.Subsystem.Elevator.Elevator;
 
 public class ClimbConstants {
 
@@ -39,6 +38,6 @@ public class ClimbConstants {
     public static final double IDLE_ANGLE = 0;
     public static final double OPEN_ANGLE = 0;
     public static final double CLOSE_ANGLE = 0;
-    public static final double RESER_ANGLE = 0;
+    public static final double RESER_VOLTS = 0;
 
 }

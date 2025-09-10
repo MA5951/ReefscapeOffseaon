@@ -22,6 +22,13 @@ public class Elevator extends PositionControlledSystem {
         return true;
     }
 
+    public static int getHeight() {
+        return 1;
+    }
+
+   public static int getBallHeight() {
+    return 1;
+   }
     public static final Elevator getInstance() {
         if (elevator == null) {
             elevator = new Elevator();
