@@ -37,4 +37,8 @@ public class IntakeConstants {
     public static final double CORAL_HOLD_VOLTS = 0;
     public static final double BALL_HOLD_VOLTS = 0;
     public static final double CORAL_SORTING_HOLD_VOLTS = 0;
+
+    public static final double EJECT_SPEED_L1 = 0;
+    public static final double EJECT_SPEED_L234 = 0;
+
 }

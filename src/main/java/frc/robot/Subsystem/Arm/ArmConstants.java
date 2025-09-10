@@ -41,4 +41,10 @@ public class ArmConstants {
     public static final double OPEN_ANGLE = 0;
     public static final double CLOSE_ANGLE = 0;
     public static final double RESER_ANGLE = 0;
+
+    public static final double ANGLE_L1 = 0;
+    public static final double ANGLE_L2 = 0;
+    public static final double ANGLE_L3 = 0;
+    public static final double ANGLE_L4 = 0;
+
 }
