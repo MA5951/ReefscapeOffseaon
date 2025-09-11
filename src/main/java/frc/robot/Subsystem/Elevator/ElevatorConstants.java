@@ -43,6 +43,12 @@ public class ElevatorConstants {
 
     public static final double IDLE_HEIGHT = 0;
     public static final double INTAKE_HEIGHT = 0;
+    public static final double L1_HEIGHT = 0;
+    public static final double L2_HEIGHT = 0;
+    public static final double L3_HEIGHT = 0;
+    public static final double L4_HEIGHT = 0;
+    public static final double BALL_LOW_INTAKE_HEIGHT = 0;
+    public static final double BALL_HIGH_INTAKE_HEIGHT = 0;
     public static final double BALL_HOLDING_HEIGHT = 0;
     public static final double BALL_SCORING_HEIGHT = 0;
     public static final double CLOSE_HEIGHT = 0;

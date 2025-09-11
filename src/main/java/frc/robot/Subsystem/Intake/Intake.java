@@ -36,7 +36,11 @@ public static boolean isCoral() {
         }
     }
 public static boolean getBallSensor() {
-       return false;
+       if (BallSensor() < IntakeConstants.BALL_DISTANCE) {
+           return true;
+       } else {
+           return false;
+       }
     }
     
     public static boolean isGamePiece() {
@@ -45,6 +49,9 @@ public static boolean getBallSensor() {
         } else {
             return false;
         }
+    }
+public static double BallSensor() {
+        return 0;
     }
 
     public static final Intake getInstance() {

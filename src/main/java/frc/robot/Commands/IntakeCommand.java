@@ -60,12 +60,28 @@ public class IntakeCommand extends SubsystemCommand {
                     intake.setVoltage(IntakeConstants.CORAL_SORTING_FORWARD_VOLTS);
                 }
                 break;
+            case "BALL_SORTING":  
+                 i = 0;
+                if (cycle == true && !Intake.getBallSensor()) {
+                    i++;
+                    cycle = false;
+                }
+        
+                if (Intake.getBallSensor()) {
+                    cycle = true;
+                    intake.setVoltage(IntakeConstants.BALL_SORTING_BACKWARD_VOLTS);
+                }
+        
+                if (!Intake.getBallSensor()) {
+                    intake.setVoltage(IntakeConstants.BALL_SORTING_FORWARD_VOLTS);
+                }
+                break;
+            }
         }
-    }
 
     @Override
     public void Manual() {
-        
+
     }
 
     @Override
@@ -74,3 +90,4 @@ public class IntakeCommand extends SubsystemCommand {
     }
 
 }
+

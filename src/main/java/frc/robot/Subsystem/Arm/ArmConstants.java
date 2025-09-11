@@ -34,6 +34,8 @@ public class ArmConstants {
     public static final State BALL_PRESCORING = new State("BALL_PRESCORING", Arm.getInstance());
     public static final State BALL_SCORING = new State("BALL_SCORING", Arm.getInstance());
     public static final State CORAL_HOLDING = new State("CORAL_HOLDING ", Arm.getInstance());
+    public static final State BALL_SORTING = new State("BALL_SORTING ", Arm.getInstance());
+
 
     public static final double IDLE_ANGLE = 0;
     public static final double INTAKE_ANGLE = 0;

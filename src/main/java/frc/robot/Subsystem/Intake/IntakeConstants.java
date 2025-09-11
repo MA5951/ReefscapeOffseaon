@@ -28,6 +28,7 @@ public class IntakeConstants {
     public static final State CORAL_HOLD   = new State("CORAL_HOLD  ", Intake.getInstance());
     public static final State BALL_HOLD   = new State("BALL_HOLD  ", Intake.getInstance());
     public static final State CORAL_SORTING  = new State("CORAL_SORTING ", Intake.getInstance());
+    public static final State BALL_SORTING  = new State("BALL_SORTING ", Intake.getInstance());
 
     public static final double IDLE_VOLTS = 0;
     public static final double CORAL_FORWARD_VOLTS = 0;
@@ -39,4 +40,8 @@ public class IntakeConstants {
     public static final double CORAL_SORTING_FORWARD_VOLTS = 0;
     public static final double CORAL_SORTING_BACKWARD_VOLTS = 0;
     public static final double SORTING_NUM = 0;
+    public static final double BALL_SORTING_FORWARD_VOLTS = 0;
+    public static final double BALL_SORTING_BACKWARD_VOLTS = 0;
+    public static final double BALL_SORTING_NUM = 0;
+    public static final double BALL_DISTANCE = 0;
 }
