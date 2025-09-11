@@ -3,14 +3,19 @@ package frc.robot.RobotControl;
 
 import com.MAutils.Logger.MALog;
 
-import frc.robot.RobotConstants;
-import frc.robot.RobotContainer;
-import frc.robot.RobotControl.Field.ScoringLocation;
+import frc.robot.Subsystem.Arm.Arm;
+import frc.robot.Subsystem.Elevator.Elevator;
 
 public class SuperStructure {
 
     private static Field.ScoringLevel scoringLevel;
     private static Field.ScoringLocation scoringLocation;
+
+
+    private static final Arm arm = Arm.getInstance();
+    private static final Elevator elevator = Elevator.getInstance();
+
+    
 
 
     public static void setScoringPreset(Field.ScoringLevel ScoringLevel) {
@@ -43,7 +48,19 @@ public class SuperStructure {
 
     public static void setScoringLocation(Field.ScoringLocation ScoringLocation) {
         scoringLocation = ScoringLocation;
-        //MALog("/SuperStructure/Scoring Location", ScoringLocation.name());
+        MALog.log("/SuperStructure/Scoring Location", ScoringLocation.name());
+    }
+
+    public static Field.ScoringLocation getScoringLocation() {
+        return scoringLocation;
+    }
+
+    public static boolean isIntakeFliped() {
+        return arm.getPosition() > 90;
+    }
+
+    public static double getElevatorHight() {
+        return elevator.getPosition();
     }
 
 }
