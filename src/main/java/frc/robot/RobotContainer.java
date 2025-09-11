@@ -47,7 +47,7 @@ public class RobotContainer extends DeafultRobotContainer {
 
    T(StateTrigger.T(() -> getDriverController().getActionsRight() && !Intake.isGamePiece(), RobotConstants.BALL_INTAKE));
 
-   T(StateTrigger.T(() -> Intake.getBallSensor(), RobotConstants.BALL_SORTING).withInRobotState(RobotConstants.BALL_INTAKE));
+   T(StateTrigger.T(() -> Intake.getInstance().getBallSensor(), RobotConstants.BALL_SORTING).withInRobotState(RobotConstants.BALL_INTAKE));
 // need to add distance from reef
    T(StateTrigger.T(() -> Intake.getBallSensor(), RobotConstants.BALL_HOLDING). withInRobotState(RobotConstants.BALL_SORTING));
 

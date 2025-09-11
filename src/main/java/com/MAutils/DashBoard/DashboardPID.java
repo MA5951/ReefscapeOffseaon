@@ -27,7 +27,7 @@ public class DashboardPID implements Sendable {
 
     /**
      * @param pidSetter        called whenever P, I, or D is changed (with the new triple)
-     * @param targetSetter     called whenever the dashboard “Target” value is edited
+     * @param targetSetter     called whenever the dashboard Target value is edited
      * @param targetSupplier   returns the current target (so the widget shows the live value)
      * @param positionSupplier returns your live process variable (e.g. encoder::getDistance)
      */

@@ -32,7 +32,6 @@ public class AprilTagFilters {
         tag         = visionCameraIO.getTag();
         visionPose  = visionCameraIO.getPoseEstimate(filtersConfig.poseEstimateType);
     
-        // if no valid tag, out‐of‐bounds, or too ambiguous, zero confidence
         if (!visionCameraIO.isTag() || visionPose.pose.getX() == 0
             || !filtersConfig.fieldRactangle.contains(visionPose.pose.getTranslation())
             || tag.ambiguity > 0.7) {

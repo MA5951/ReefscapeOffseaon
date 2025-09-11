@@ -20,32 +20,34 @@ public class Intake extends PowerControlledSystem {
     }
 
     public boolean Intakecanmove(){
-     
+     return false;
     }
 
     public boolean Holdcanmove(){
-      if(RobotContainer.getRobotState().getStateName() == RobotConstants.INTAKE.getStateName() &&  ) 
+      if(RobotContainer.getRobotState().getStateName() == RobotConstants.INTAKE.getStateName() ) {}
+
+      return true;
     }
 
     @Override
     public boolean CAN_MOVE() {
         return true;
     }
-    public static boolean getRearSensor() {
+    public boolean getRearSensor() {
         return false;
     }
 
-    public static boolean getFrontSensor() {
+    public boolean getFrontSensor() {
         return false;
     }
-public static boolean isCoral() {
+public boolean isCoral() {
         if (getFrontSensor() || getRearSensor()) {
             return true;
         } else {
             return false;
         }
     }
-public static boolean getBallSensor() {
+public boolean getBallSensor() {
        if (BallSensor() < IntakeConstants.BALL_DISTANCE) {
            return true;
        } else {
@@ -53,14 +55,14 @@ public static boolean getBallSensor() {
        }
     }
     
-    public static boolean isGamePiece() {
+    public boolean isGamePiece() {
         if (getBallSensor() || isCoral()){
             return true;
         } else {
             return false;
         }
     }
-public static double BallSensor() {
+public double BallSensor() {
         return 0;
     }
 

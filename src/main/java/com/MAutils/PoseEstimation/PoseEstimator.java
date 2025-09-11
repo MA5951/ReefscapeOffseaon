@@ -166,7 +166,6 @@ public class PoseEstimator {
         }
     }
 
-    /** One applied‐twist entry. */
     private static class HistoryEntry {
         final double time;
         final Twist2d twist;
