@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.PS5Controller;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Commands.IntakeCommand;
+import frc.robot.RobotControl.SuperStructure;
 import frc.robot.Subsystem.Arm.Arm;
 import frc.robot.Subsystem.Elevator.Elevator;
 import frc.robot.Subsystem.Intake.Intake;
@@ -33,27 +34,27 @@ public class RobotContainer extends DeafultRobotContainer {
 // need to add distance from reef
 
 
-   T(StateTrigger.T(() -> getDriverController().getMiddle() || getRobotState().getStateName() == RobotConstants.EJECT.getStateName() && !Intake.isGamePiece() || currentRobotState.getStateName() == RobotConstants.SCORING.getStateName(), RobotConstants.IDLE));
+   T(StateTrigger.T(() -> getDriverController().getMiddle() || getRobotState().getStateName() == RobotConstants.EJECT.getStateName() && !SuperStructure.isGamePiece() || currentRobotState.getStateName() == RobotConstants.SCORING.getStateName(), RobotConstants.IDLE));
     
-   T(StateTrigger.T(() -> (getDriverController().getR1() || getDriverController().getL1()) && !Intake.isGamePiece(), RobotConstants.INTAKE));
+   T(StateTrigger.T(() -> (getDriverController().getR1() || getDriverController().getL1()) && !SuperStructure.isGamePiece(), RobotConstants.INTAKE));
 
-   T(StateTrigger.T(() -> Intake.isCoral(), RobotConstants.SORTING).withInRobotState(RobotConstants.INTAKE));
+   T(StateTrigger.T(() -> SuperStructure.isCoral(), RobotConstants.SORTING).withInRobotState(RobotConstants.INTAKE));
 
-   T(StateTrigger.T(() -> Intake.isCoral() && IntakeCommand.i == IntakeConstants.SORTING_NUM, RobotConstants.CORAL_HOLD).withInRobotState(RobotConstants.SORTING));
+   T(StateTrigger.T(() -> SuperStructure.isCoral() && IntakeCommand.i == IntakeConstants.SORTING_NUM, RobotConstants.CORAL_HOLD).withInRobotState(RobotConstants.SORTING));
 
-   T(StateTrigger.T(() -> getDriverController().getActionsDown() && Intake.isCoral(), RobotConstants.SCORING ));
+   T(StateTrigger.T(() -> getDriverController().getActionsDown() && SuperStructure.isCoral(), RobotConstants.SCORING ));
 // need to add arm robot and eleavtor at point
    T(StateTrigger.T(() -> getDriverController().getActionsLeft(), RobotConstants.EJECT));
 
-   T(StateTrigger.T(() -> getDriverController().getActionsRight() && !Intake.isGamePiece(), RobotConstants.BALL_INTAKE));
+   T(StateTrigger.T(() -> getDriverController().getActionsRight() && !SuperStructure.isGamePiece(), RobotConstants.BALL_INTAKE));
 
    T(StateTrigger.T(() -> Intake.getInstance().getBallSensor(), RobotConstants.BALL_SORTING).withInRobotState(RobotConstants.BALL_INTAKE));
 // need to add distance from reef
-   T(StateTrigger.T(() -> Intake.getBallSensor(), RobotConstants.BALL_HOLDING). withInRobotState(RobotConstants.BALL_SORTING));
+   T(StateTrigger.T(() -> SuperStructure.isAlgea(), RobotConstants.BALL_HOLDING). withInRobotState(RobotConstants.BALL_SORTING));
 
-   T(StateTrigger.T(() -> getDriverController().getActionsDown() && Intake.getBallSensor(), RobotConstants.BALL_PRESCORING));
+   T(StateTrigger.T(() -> getDriverController().getActionsDown() && SuperStructure.isAlgea(), RobotConstants.BALL_SCORING));
 // need to add arm robot and eleavtor at point, has ball? 
-   T(StateTrigger.T(() -> intake.isGamePiece, RobotConstants.BALL_SCORING).withInRobotState(RobotConstants.BALL_PRESCORING));
+   T(StateTrigger.T(() -> SuperStructure.isAlgea(), RobotConstants.BALL_SCORING).withInRobotState(RobotConstants.BALL_SCORING));
 // need to add 30sec left for match
    T(StateTrigger.T(() -> getDriverController().getActionsUp() && DriverStation.getMatchTime() <= 30, RobotConstants.PRECLIMBING));
 // need to add open climber and servo open
