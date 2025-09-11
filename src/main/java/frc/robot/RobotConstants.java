@@ -32,7 +32,7 @@ public class RobotConstants {
         ArmConstants.CORAL_SCORING,
         ElevatorConstants.SCORING);
 
-    public static final RobotState Eject = new RobotState(
+    public static final RobotState EJECT = new RobotState(
         "Eject",
         IntakeConstants.CORAL_EJECT);
 

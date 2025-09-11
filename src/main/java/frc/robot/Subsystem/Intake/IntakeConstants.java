@@ -36,5 +36,7 @@ public class IntakeConstants {
     public static final double BALL_BACKWARD_VOLTS = 0;
     public static final double CORAL_HOLD_VOLTS = 0;
     public static final double BALL_HOLD_VOLTS = 0;
-    public static final double CORAL_SORTING_HOLD_VOLTS = 0;
+    public static final double CORAL_SORTING_FORWARD_VOLTS = 0;
+    public static final double CORAL_SORTING_BACKWARD_VOLTS = 0;
+    public static final double SORTING_NUM = 0;
 }

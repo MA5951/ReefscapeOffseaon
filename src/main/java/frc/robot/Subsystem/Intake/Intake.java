@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class Intake extends PowerControlledSystem {
 
     private static Intake intake;
-
+    
     private Intake() {
         super(IntakeConstants.INTAKE_CONSTANTS);
     }
@@ -20,6 +20,31 @@ public class Intake extends PowerControlledSystem {
     @Override
     public boolean CAN_MOVE() {
         return true;
+    }
+    public static boolean getRearSensor() {
+        return false;
+    }
+
+    public static boolean getFrontSensor() {
+        return false;
+    }
+public static boolean isCoral() {
+        if (getFrontSensor() || getRearSensor()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+public static boolean getBallSensor() {
+       return false;
+    }
+    
+    public static boolean isGamePiece() {
+        if (getBallSensor() || isCoral()){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static final Intake getInstance() {
