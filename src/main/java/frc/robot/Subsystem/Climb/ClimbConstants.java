@@ -38,6 +38,6 @@ public class ClimbConstants {
     public static final double IDLE_ANGLE = 0;
     public static final double OPEN_ANGLE = 0;
     public static final double CLOSE_ANGLE = 0;
-    public static final double RESER_ANGLE = 0;
+    public static final double RESER_VOLTS = 0;
 
 }

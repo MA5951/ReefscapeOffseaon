@@ -38,7 +38,7 @@ public class ElevatorConstants {
     public static final State BALL_INTAKE = new State("BALL_INTAKE ", Climb.getInstance());
     public static final State BALL_HOLDING = new State("BALL_HOLDING ", Climb.getInstance());
     public static final State BALL_SCORING = new State("BALL_SCORING  ", Climb.getInstance());
-    public static final State CLOSE_HIGHT = new State("CLOSE_HIGHT  ", Climb.getInstance());
+    public static final State CLOSE = new State("CLOSE_HIGHT  ", Climb.getInstance());
     public static final State HOLD = new State("HOLD ", Climb.getInstance());
 
     public static final double IDLE_HEIGHT = 0;
@@ -53,4 +53,14 @@ public class ElevatorConstants {
     public static final double BALL_SCORING_HEIGHT = 0;
     public static final double CLOSE_HEIGHT = 0;
     public static final double HOLDING_HEIGHT = 0;
+
+    public static final double BALL_LAW_INTAKE = 0;
+    public static final double BALL_HEIGHT_INTAKE = 0;
+
+    public static final double HIGHT_L1 = 0;
+    public static final double HIGHT_L2 = 0;
+    public static final double HIGHT_L3 = 0;
+    public static final double HIGHT_L4 = 0;
+
+
 }

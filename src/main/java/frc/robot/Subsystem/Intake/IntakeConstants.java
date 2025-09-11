@@ -44,4 +44,5 @@ public class IntakeConstants {
     public static final double BALL_SORTING_BACKWARD_VOLTS = 0;
     public static final double BALL_SORTING_NUM = 0;
     public static final double BALL_DISTANCE = 0;
+
 }
