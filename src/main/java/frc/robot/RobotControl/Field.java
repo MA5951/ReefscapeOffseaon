@@ -43,7 +43,7 @@ public class Field {
                 ScoringLevel(double ScoringHight, double ScoringAngle, double EjectVolt) {
                         hight = ScoringHight;
                         angle = ScoringAngle;
-                        ejectVolt = EjectVolt;
+                        ejectVolt = EjectVolt;  
                 }
         }
 
