@@ -36,12 +36,13 @@ public class RobotConstants {
         ArmConstants.CORAL_HOLDING,
         ElevatorConstants.HOLD);
 
-    public static final RobotState PRESCORING = new RobotState("PRESCORING ",
-        IntakeConstants.CORAL_HOLD,
+    public static final RobotState SCORING = new RobotState(
+        "SCORING",
+        IntakeConstants.CORAL_FORWARD,
         ArmConstants.CORAL_SCORING,
         ElevatorConstants.SCORING);
-
-    public static final RobotState Eject = new RobotState(
+  
+    public static final RobotState EJECT = new RobotState(
         "EJECT",
         IntakeConstants.CORAL_EJECT);
 
@@ -50,6 +51,10 @@ public class RobotConstants {
         IntakeConstants.BALL_FORWARD,
         ArmConstants.BALL_INTAKE,
         ElevatorConstants.BALL_INTAKE);
+        public static final RobotState BALL_SORTING = new RobotState(
+            "BALL_SORTING ",
+            IntakeConstants.BALL_SORTING,
+            ArmConstants.BALL_SORTING);
 
     public static final RobotState BALL_HOLDING  = new RobotState(
         "BALL_HOLDING ",

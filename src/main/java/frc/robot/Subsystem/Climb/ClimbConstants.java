@@ -15,7 +15,7 @@ public class ClimbConstants {
      "masterMotor", InvertedValue.Clockwise_Positive);
 
     private static final Motor slaveMotor = new Motor(PortMap.ClimbPorts.SLAVE_CLIMB_MOTOR, MotorType.KRAKEN,
-     "masterMotor", InvertedValue.Clockwise_Positive);
+     "slaveMotor", InvertedValue.Clockwise_Positive);
 
     private static final GainConfig REEL_GAIN_CONFI = new GainConfig().withKP(1);
 
