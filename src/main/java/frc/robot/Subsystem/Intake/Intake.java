@@ -3,6 +3,8 @@ package frc.robot.Subsystem.Intake;
 import com.MAutils.Subsystems.DeafultSubsystems.Systems.PowerControlledSystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotConstants;
+import frc.robot.RobotContainer;
 
 public class Intake extends PowerControlledSystem {
 
@@ -17,6 +19,14 @@ public class Intake extends PowerControlledSystem {
        return null;
     }
 
+    public boolean Intakecanmove(){
+     
+    }
+
+    public boolean Holdcanmove(){
+      if(RobotContainer.getRobotState().getStateName() == RobotConstants.INTAKE.getStateName() &&  ) 
+    }
+
     @Override
     public boolean CAN_MOVE() {
         return true;
@@ -28,4 +38,8 @@ public class Intake extends PowerControlledSystem {
         }
         return intake;
     }
+
+    
+
+    
 }
