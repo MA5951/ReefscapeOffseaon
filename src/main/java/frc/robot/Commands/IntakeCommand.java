@@ -3,6 +3,7 @@ package frc.robot.Commands;
 
 import com.MAutils.RobotControl.SubsystemCommand;
 
+import frc.robot.RobotControl.SuperStructure;
 import frc.robot.Subsystem.Arm.Arm;
 import frc.robot.Subsystem.Arm.ArmConstants;
 import frc.robot.Subsystem.Intake.Intake;
@@ -48,31 +49,31 @@ public class IntakeCommand extends SubsystemCommand {
                 break;
             case "CORAL_SORTING":
                 i = 0;
-                if (cycle == true && !Intake.getRearSensor()) {
+                if (cycle == true && !SuperStructure.isRearSensore()) {
                     i++;
                     cycle = false;
                 }
-                if (Intake.getRearSensor()) {
+                if (SuperStructure.isRearSensore()) {
                     cycle = true;
                     intake.setVoltage(IntakeConstants.CORAL_SORTING_BACKWARD_VOLTS);
                 }
-                if (!Intake.getRearSensor()) {
+                if (!SuperStructure.isRearSensore()) {
                     intake.setVoltage(IntakeConstants.CORAL_SORTING_FORWARD_VOLTS);
                 }
                 break;
             case "BALL_SORTING":  
                  i = 0;
-                if (cycle == true && !Intake.getBallSensor()) {
+                if (cycle == true && !SuperStructure.isAlgea()) {
                     i++;
                     cycle = false;
                 }
         
-                if (Intake.getBallSensor()) {
+                if (SuperStructure.isAlgea()) {
                     cycle = true;
                     intake.setVoltage(IntakeConstants.BALL_SORTING_BACKWARD_VOLTS);
                 }
         
-                if (!Intake.getBallSensor()) {
+                if (!SuperStructure.isAlgea()) {
                     intake.setVoltage(IntakeConstants.BALL_SORTING_FORWARD_VOLTS);
                 }
                 break;

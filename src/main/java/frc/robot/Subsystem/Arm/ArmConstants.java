@@ -41,9 +41,6 @@ public class ArmConstants {
     public static final double INTAKE_ANGLE = 0;
     public static final double CORAL_HOLDING_ANGLE = 0;
     public static final double CORAL_EJECT_ANGLE = 0;
-    public static final double L1_ANGLE = 0;
-    public static final double L2_L3_ANGLE = 0;
-    public static final double L4_ANGLE = 0;
     public static final double BALL_INTAKE_ANGLE = 0;
     public static final double BALL_HOLDING_ANGLE = 0;
     public static final double BALL_PRESCORING_ANGLE = 0;
@@ -51,5 +48,10 @@ public class ArmConstants {
     public static final double KP = 0;
     public static final double KI = 0;
     public static final double KD = 0;
+
+    public static final double ANGLE_L1 = 0;
+    public static final double ANGLE_L2 = 0;
+    public static final double ANGLE_L3 = 0;
+    public static final double ANGLE_L4 = 0;
 
 }

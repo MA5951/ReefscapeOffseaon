@@ -45,4 +45,8 @@ public class IntakeConstants {
     public static final double BALL_SORTING_NUM = 0;
     public static final double BALL_DISTANCE = 0;
 
+    public static final double EJECT_SPEED_L1 = 0;
+    public static final double EJECT_SPEED_L234 = 0;
+
+
 }

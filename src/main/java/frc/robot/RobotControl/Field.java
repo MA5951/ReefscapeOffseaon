@@ -28,13 +28,13 @@ public class Field {
 
 
         public static enum ScoringLevel {
-                L1(ElevatorConstants.HIGHT_L1, ArmConstants.ANGLE_L1, IntakeConstants.EJECT_SPEED_L1),
+                L1(ElevatorConstants.HEIGHT_L1, ArmConstants.ANGLE_L1, IntakeConstants.EJECT_SPEED_L1),
 
-                L2(ElevatorConstants.HIGHT_L2, ArmConstants.ANGLE_L2, IntakeConstants.EJECT_SPEED_L234),
+                L2(ElevatorConstants.HEIGHT_L2, ArmConstants.ANGLE_L2, IntakeConstants.EJECT_SPEED_L234),
 
-                L3(ElevatorConstants.HIGHT_L3, ArmConstants.ANGLE_L3, IntakeConstants.EJECT_SPEED_L234),
+                L3(ElevatorConstants.HEIGHT_L3, ArmConstants.ANGLE_L3, IntakeConstants.EJECT_SPEED_L234),
 
-                L4(ElevatorConstants.HIGHT_L4, ArmConstants.ANGLE_L4, IntakeConstants.EJECT_SPEED_L234 - 3.5);
+                L4(ElevatorConstants.HEIGHT_L4, ArmConstants.ANGLE_L4, IntakeConstants.EJECT_SPEED_L234 - 3.5);
 
                 public final double hight;
                 public final double angle;
