@@ -1,11 +1,6 @@
 
 package frc.robot.RobotControl;
 
-import com.MAutils.Logger.MALog;
-
-import frc.robot.RobotConstants;
-import frc.robot.RobotContainer;
-import frc.robot.RobotControl.Field.ScoringLocation;
 
 public class SuperStructure {
 

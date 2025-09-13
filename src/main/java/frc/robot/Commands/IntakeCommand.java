@@ -12,7 +12,7 @@ import frc.robot.Subsystem.Intake.IntakeConstants;
 public class IntakeCommand extends SubsystemCommand {
     private static final Intake intake = Intake.getInstance();
     private boolean cycle = false;
-    public static int i = 0;
+    public static int sortingNum = 0;
 
     public IntakeCommand() {
         super(Intake.getInstance());

@@ -29,6 +29,7 @@ public class ArmConstants {
     public static final State IDLE = new State("IDLE", Arm.getInstance());
     public static final State INTAKE = new State("INTAKE  ", Arm.getInstance());
     public static final State CORAL_SCORING = new State("CORAL_SCORING ", Arm.getInstance());
+    public static final State CORAL_SORTING = new State("CORAL_SORTING ", Arm.getInstance());
     public static final State BALL_INTAKE = new State("BALL_INTAKE", Arm.getInstance());
     public static final State BALL_HOLDING = new State("BALL_HOLDING", Arm.getInstance());
     public static final State BALL_PRESCORING = new State("BALL_PRESCORING", Arm.getInstance());

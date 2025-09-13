@@ -5,27 +5,67 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.MAutils.Utils.DriverStationUtil;
+
+import edu.wpi.first.math.geometry.Ellipse2d;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rectangle2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import frc.robot.RobotConstants;
 import frc.robot.Subsystem.Arm.ArmConstants;
 import frc.robot.Subsystem.Elevator.ElevatorConstants;
 import frc.robot.Subsystem.Intake.IntakeConstants;
-import frc.robot.ReefFace;
-
+import frc.robot.Util.ReefFace;
 
 public class Field {
 
+        // FieldConstants
+        public static final Translation2d FieldZeroCorner = new Translation2d(0, 0);
+        public static final Translation2d FieldFarCorner = new Translation2d(17.548, 8.052);
+        public static final Translation2d FieldMiddlePoint = new Translation2d(17.548 / 2, 8.052 / 2);
+        public static final Rectangle2d FieldRectangle = new Rectangle2d(FieldZeroCorner, FieldFarCorner);
+        public static final Ellipse2d BLUE_REEF_CIRCLE = new Ellipse2d(new Translation2d(3.6576 + 0.831596, 4.0259),
+                        0.9);
+        public static final Ellipse2d RED_REEF_CIRCLE = new Ellipse2d(
+                        new Translation2d(12.227305999999999 + 0.831596, 4.0259), 0.9);
+        public static final Translation2d ReefCenterBlue = new Translation2d(4.45, 4);// TODO
+        public static final Translation2d ReefCenterRed = new Translation2d(4.45, 13.2);// TODO
+        public static final Translation2d ReefCenter = DriverStationUtil.getAlliance() == Alliance.Blue ? ReefCenterBlue
+                        : ReefCenterRed;
+
+        // Reef
+        public static final Pose2d Tag6Pose = new Pose2d(13.474446, 3.3063179999999996, Rotation2d.fromDegrees(120));
+        public static final Pose2d Tag7Pose = new Pose2d(13.890498, 4.0259, Rotation2d.fromDegrees(180));
+        public static final Pose2d Tag8Pose = new Pose2d(13.474446, 4.745482, Rotation2d.fromDegrees(-120));
+        public static final Pose2d Tag9Pose = new Pose2d(12.643358, 4.745482, Rotation2d.fromDegrees(-60));
+        public static final Pose2d Tag10Pose = new Pose2d(12.227305999999999, 4.0259, new Rotation2d(0));
+        public static final Pose2d Tag11Pose = new Pose2d(12.643358, 3.3063179999999996, Rotation2d.fromDegrees(60));
+
+        public static final Pose2d Tag17Pose = new Pose2d(4.073905999999999, 3.3063179999999996,
+                        Rotation2d.fromDegrees(60));
+        public static final Pose2d Tag18Pose = new Pose2d(3.6576, 4.0259, new Rotation2d(0));
+        public static final Pose2d Tag19Pose = new Pose2d(4.073905999999999, 4.745482, Rotation2d.fromDegrees(-60));
+        public static final Pose2d Tag20Pose = new Pose2d(4.904739999999999, 4.745482, Rotation2d.fromDegrees(-120));
+        public static final Pose2d Tag21Pose = new Pose2d(5.321046, 4.0259, Rotation2d.fromDegrees(180));
+        public static final Pose2d Tag22Pose = new Pose2d(4.904739999999999, 3.3063179999999996,
+                        Rotation2d.fromDegrees(120));
+
+        // Source
+        public static final Pose2d Tag1Pose = new Pose2d(16.697198, 0.65532, Rotation2d.fromDegrees(-52));
+        public static final Pose2d Tag2Pose = new Pose2d(16.697198, 7.3964799999999995, Rotation2d.fromDegrees(52));
+        public static final Pose2d Tag12Pose = new Pose2d(0.851154, 0.65532, Rotation2d.fromDegrees(-127));
+        public static final Pose2d Tag13Pose = new Pose2d(0.851154, 7.3964799999999995, Rotation2d.fromDegrees(127));
+
         public static enum GamePiece {
                 CORAL(),
-                BALL(),
+                ALGE(),
                 NONE();
 
                 GamePiece() {
                 }
 
         }
-
 
         public static enum ScoringLevel {
                 L1(ElevatorConstants.HEIGHT_L1, ArmConstants.ANGLE_L1, IntakeConstants.EJECT_SPEED_L1),
@@ -34,7 +74,7 @@ public class Field {
 
                 L3(ElevatorConstants.HEIGHT_L3, ArmConstants.ANGLE_L3, IntakeConstants.EJECT_SPEED_L234),
 
-                L4(ElevatorConstants.HEIGHT_L4, ArmConstants.ANGLE_L4, IntakeConstants.EJECT_SPEED_L234 - 3.5);
+                L4(ElevatorConstants.HEIGHT_L4, ArmConstants.ANGLE_L4, IntakeConstants.EJECT_SPEED_L234);
 
                 public final double hight;
                 public final double angle;
@@ -43,7 +83,7 @@ public class Field {
                 ScoringLevel(double ScoringHight, double ScoringAngle, double EjectVolt) {
                         hight = ScoringHight;
                         angle = ScoringAngle;
-                        ejectVolt = EjectVolt;  
+                        ejectVolt = EjectVolt;
                 }
         }
 
@@ -55,8 +95,8 @@ public class Field {
         }
 
         public static enum BallHight {
-        HIGH(ElevatorConstants.BALL_HEIGHT_INTAKE),//HIGHT_EJECT_BALL_HIGH
-                LOW(ElevatorConstants.BALL_HEIGHT_INTAKE),
+                HIGH(ElevatorConstants.BALL_LOW_INTAKE),
+                LOW(ElevatorConstants.BALL_HEIGH_INTAKE),
                 NONE(0);
 
                 public final double elevatorHight;
@@ -66,55 +106,75 @@ public class Field {
                 }
         }
 
-    private static HashMap<Integer, ReefFace> ReefFaces = new HashMap<Integer, ReefFace>();
+        private static HashMap<Integer, ReefFace> ReefFaces = new HashMap<Integer, ReefFace>();
         private static ReefFace blankFace = new ReefFace(0, 0, BallHight.NONE, new Pose2d());
         public final static List<Integer> ReefTags = new ArrayList<>();
         private static ReefFace closestFace;
         private static double closestDistanceReef;
         private static double spatialDistanceReef;
         private static boolean wasFieldSet = false;
-       
+
         public Field() {
-        // Blue Side
-        ReefFaces.put(17, new ReefFace(RobotConstants.Tag17Pose.getRotation().getDegrees(), 17, Field.BallHight.LOW,
-                RobotConstants.Tag17Pose));
-        ReefFaces.put(22, new ReefFace(RobotConstants.Tag22Pose.getRotation().getDegrees(), 22, Field.BallHight.HIGH,
-                RobotConstants.Tag22Pose));
-        ReefFaces.put(20, new ReefFace(RobotConstants.Tag20Pose.getRotation().getDegrees(), 20, Field.BallHight.HIGH,
-                RobotConstants.Tag20Pose));
-        ReefFaces.put(19, new ReefFace(RobotConstants.Tag19Pose.getRotation().getDegrees(), 19, Field.BallHight.LOW,
-                RobotConstants.Tag19Pose));
-        ReefFaces.put(18, new ReefFace(RobotConstants.Tag18Pose.getRotation().getDegrees(), 18, Field.BallHight.HIGH,
-                RobotConstants.Tag18Pose));
-        ReefFaces.put(21, new ReefFace(RobotConstants.Tag21Pose.getRotation().getDegrees(), 21, Field.BallHight.LOW,
-                RobotConstants.Tag21Pose));
-        ReefTags.add(17);
-        ReefTags.add(22);
-        ReefTags.add(20);
-        ReefTags.add(19);
-        ReefTags.add(18);
-        ReefTags.add(21);
+                // Blue Side
+                ReefFaces.put(17,
+                                new ReefFace(Tag17Pose.getRotation().getDegrees(), 17,
+                                                Field.BallHight.LOW,
+                                                Tag17Pose));
+                ReefFaces.put(22,
+                                new ReefFace(Tag22Pose.getRotation().getDegrees(), 22,
+                                                Field.BallHight.HIGH,
+                                                Tag22Pose));
+                ReefFaces.put(20,
+                                new ReefFace(Tag20Pose.getRotation().getDegrees(), 20,
+                                                Field.BallHight.HIGH,
+                                                Tag20Pose));
+                ReefFaces.put(19,
+                                new ReefFace(Tag19Pose.getRotation().getDegrees(), 19,
+                                                Field.BallHight.LOW,
+                                                Tag19Pose));
+                ReefFaces.put(18,
+                                new ReefFace(Tag18Pose.getRotation().getDegrees(), 18,
+                                                Field.BallHight.HIGH,
+                                                Tag18Pose));
+                ReefFaces.put(21,
+                                new ReefFace(Tag21Pose.getRotation().getDegrees(), 21,
+                                                Field.BallHight.LOW,
+                                                Tag21Pose));
+                ReefTags.add(17);
+                ReefTags.add(22);
+                ReefTags.add(20);
+                ReefTags.add(19);
+                ReefTags.add(18);
+                ReefTags.add(21);
 
-        ReefFaces.put(10, new ReefFace(RobotConstants.Tag10Pose.getRotation().getDegrees(), 10, Field.BallHight.LOW,
-                RobotConstants.Tag10Pose));
-        ReefFaces.put(7, new ReefFace(RobotConstants.Tag7Pose.getRotation().getDegrees(), 7, Field.BallHight.HIGH,
-                RobotConstants.Tag7Pose));
-        ReefFaces.put(11, new ReefFace(RobotConstants.Tag11Pose.getRotation().getDegrees(), 11, Field.BallHight.HIGH,
-                RobotConstants.Tag11Pose));
-        ReefFaces.put(9, new ReefFace(RobotConstants.Tag9Pose.getRotation().getDegrees(), 9, Field.BallHight.HIGH,
-                RobotConstants.Tag9Pose));
-        ReefFaces.put(8, new ReefFace(RobotConstants.Tag8Pose.getRotation().getDegrees(), 8, Field.BallHight.LOW,
-                RobotConstants.Tag8Pose));
-        ReefFaces.put(6, new ReefFace(RobotConstants.Tag6Pose.getRotation().getDegrees(), 6, Field.BallHight.LOW,
-                RobotConstants.Tag6Pose));
-        ReefTags.add(10);
-        ReefTags.add(7);
-        ReefTags.add(11);
-        ReefTags.add(9);
-        ReefTags.add(8);
-        ReefTags.add(6);
+                ReefFaces.put(10,
+                                new ReefFace(Tag10Pose.getRotation().getDegrees(), 10,
+                                                Field.BallHight.LOW,
+                                                Tag10Pose));
+                ReefFaces.put(7, new ReefFace(Tag7Pose.getRotation().getDegrees(), 7,
+                                Field.BallHight.HIGH,
+                                Tag7Pose));
+                ReefFaces.put(11,
+                                new ReefFace(Tag11Pose.getRotation().getDegrees(), 11,
+                                                Field.BallHight.HIGH,
+                                                Tag11Pose));
+                ReefFaces.put(9, new ReefFace(Tag9Pose.getRotation().getDegrees(), 9,
+                                Field.BallHight.HIGH,
+                                Tag9Pose));
+                ReefFaces.put(8, new ReefFace(Tag8Pose.getRotation().getDegrees(), 8,
+                                Field.BallHight.LOW,
+                                Tag8Pose));
+                ReefFaces.put(6, new ReefFace(Tag6Pose.getRotation().getDegrees(), 6,
+                                Field.BallHight.LOW,
+                                Tag6Pose));
+                ReefTags.add(10);
+                ReefTags.add(7);
+                ReefTags.add(11);
+                ReefTags.add(9);
+                ReefTags.add(8);
+                ReefTags.add(6);
 
-        wasFieldSet = true;
+                wasFieldSet = true;
         }
 
         public static void setAllianceReefFaces(Alliance alliance) {
@@ -122,18 +182,18 @@ public class Field {
                         wasFieldSet = true;
                         if (alliance == Alliance.Blue) {
                                 // Blue Side
-                                ReefFaces.put(17, new ReefFace(RobotConstants.Tag17Pose.getRotation().getDegrees(), 17,
-                                                Field.BallHight.LOW, RobotConstants.Tag17Pose));
-                                ReefFaces.put(22, new ReefFace(RobotConstants.Tag22Pose.getRotation().getDegrees(), 22,
-                                                Field.BallHight.HIGH, RobotConstants.Tag22Pose));
-                                ReefFaces.put(20, new ReefFace(RobotConstants.Tag20Pose.getRotation().getDegrees(), 20,
-                                                Field.BallHight.HIGH, RobotConstants.Tag20Pose));
-                                ReefFaces.put(19, new ReefFace(RobotConstants.Tag19Pose.getRotation().getDegrees(), 19,
-                                                Field.BallHight.LOW, RobotConstants.Tag19Pose));
-                                ReefFaces.put(18, new ReefFace(RobotConstants.Tag18Pose.getRotation().getDegrees(), 18,
-                                                Field.BallHight.HIGH, RobotConstants.Tag18Pose));
-                                ReefFaces.put(21, new ReefFace(RobotConstants.Tag21Pose.getRotation().getDegrees(), 21,
-                                                Field.BallHight.LOW, RobotConstants.Tag21Pose));
+                                ReefFaces.put(17, new ReefFace(Tag17Pose.getRotation().getDegrees(), 17,
+                                                Field.BallHight.LOW, Tag17Pose));
+                                ReefFaces.put(22, new ReefFace(Tag22Pose.getRotation().getDegrees(), 22,
+                                                Field.BallHight.HIGH, Tag22Pose));
+                                ReefFaces.put(20, new ReefFace(Tag20Pose.getRotation().getDegrees(), 20,
+                                                Field.BallHight.HIGH, Tag20Pose));
+                                ReefFaces.put(19, new ReefFace(Tag19Pose.getRotation().getDegrees(), 19,
+                                                Field.BallHight.LOW, Tag19Pose));
+                                ReefFaces.put(18, new ReefFace(Tag18Pose.getRotation().getDegrees(), 18,
+                                                Field.BallHight.HIGH, Tag18Pose));
+                                ReefFaces.put(21, new ReefFace(Tag21Pose.getRotation().getDegrees(), 21,
+                                                Field.BallHight.LOW, Tag21Pose));
                                 ReefTags.add(17);
                                 ReefTags.add(22);
                                 ReefTags.add(20);
@@ -142,18 +202,18 @@ public class Field {
                                 ReefTags.add(21);
                         } else {
                                 // Red Side
-                                ReefFaces.put(10, new ReefFace(RobotConstants.Tag10Pose.getRotation().getDegrees(), 10,
-                                                Field.BallHight.LOW, RobotConstants.Tag10Pose));
-                                ReefFaces.put(7, new ReefFace(RobotConstants.Tag7Pose.getRotation().getDegrees(), 7,
-                                                Field.BallHight.HIGH, RobotConstants.Tag7Pose));
-                                ReefFaces.put(11, new ReefFace(RobotConstants.Tag11Pose.getRotation().getDegrees(), 11,
-                                                Field.BallHight.HIGH, RobotConstants.Tag11Pose));
-                                ReefFaces.put(9, new ReefFace(RobotConstants.Tag9Pose.getRotation().getDegrees(), 9,
-                                                Field.BallHight.HIGH, RobotConstants.Tag9Pose));
-                                ReefFaces.put(8, new ReefFace(RobotConstants.Tag8Pose.getRotation().getDegrees(), 8,
-                                                Field.BallHight.LOW, RobotConstants.Tag8Pose));
-                                ReefFaces.put(6, new ReefFace(RobotConstants.Tag6Pose.getRotation().getDegrees(), 6,
-                                                Field.BallHight.LOW, RobotConstants.Tag6Pose));
+                                ReefFaces.put(10, new ReefFace(Tag10Pose.getRotation().getDegrees(), 10,
+                                                Field.BallHight.LOW, Tag10Pose));
+                                ReefFaces.put(7, new ReefFace(Tag7Pose.getRotation().getDegrees(), 7,
+                                                Field.BallHight.HIGH, Tag7Pose));
+                                ReefFaces.put(11, new ReefFace(Tag11Pose.getRotation().getDegrees(), 11,
+                                                Field.BallHight.HIGH, Tag11Pose));
+                                ReefFaces.put(9, new ReefFace(Tag9Pose.getRotation().getDegrees(), 9,
+                                                Field.BallHight.HIGH, Tag9Pose));
+                                ReefFaces.put(8, new ReefFace(Tag8Pose.getRotation().getDegrees(), 8,
+                                                Field.BallHight.LOW, Tag8Pose));
+                                ReefFaces.put(6, new ReefFace(Tag6Pose.getRotation().getDegrees(), 6,
+                                                Field.BallHight.LOW, Tag6Pose));
                                 ReefTags.add(10);
                                 ReefTags.add(7);
                                 ReefTags.add(11);
@@ -164,38 +224,38 @@ public class Field {
                 }
         }
 
-    public static boolean isReefTag(int TagID) {
-        if (wasFieldSet) {
-            return ReefTags.contains(TagID);
-        } else {
-            return false;
-        }
+        public static boolean isReefTag(int TagID) {
+                if (wasFieldSet) {
+                        return ReefTags.contains(TagID);
+                } else {
+                        return false;
+                }
         }
 
-    public static ReefFace getFaceByID(int TagID) {
-        if (wasFieldSet) {
-            return ReefFaces.get(TagID);
+        public static ReefFace getFaceByID(int TagID) {
+                if (wasFieldSet) {
+                        return ReefFaces.get(TagID);
                 }
 
                 return blankFace;
         }
 
-    public static ReefFace getClosestReefFace(Pose2d robotPose) {
+        public static ReefFace getClosestReefFace(Pose2d robotPose) {
                 if (wasFieldSet) {
-                                closestFace = null;
-                                closestDistanceReef = Double.MAX_VALUE;
+                        closestFace = null;
+                        closestDistanceReef = Double.MAX_VALUE;
 
-                                for (ReefFace face : ReefFaces.values()) {
+                        for (ReefFace face : ReefFaces.values()) {
 
-                                        spatialDistanceReef = euclideanDistance(robotPose, face.tagPose());
+                                spatialDistanceReef = euclideanDistance(robotPose, face.tagPose());
 
-                                        if (spatialDistanceReef < closestDistanceReef) {
-                                                closestDistanceReef = spatialDistanceReef;
-                                                closestFace = face;
-                                        }
+                                if (spatialDistanceReef < closestDistanceReef) {
+                                        closestDistanceReef = spatialDistanceReef;
+                                        closestFace = face;
                                 }
+                        }
 
-                                return closestFace;
+                        return closestFace;
                 }
 
                 return blankFace;
