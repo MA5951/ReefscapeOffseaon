@@ -49,13 +49,12 @@ public class RobotContainer extends DeafultRobotContainer {
 
    T(StateTrigger.T(() -> getDriverController().getActionsRight() && !SuperStructure.isGamePiece(), RobotConstants.BALL_INTAKE));
 
-   T(StateTrigger.T(() -> SuperStructure.isAlgea(), RobotConstants.BALL_SORTING).withInRobotState(RobotConstants.BALL_INTAKE));
 // need to add distance from reef
-   T(StateTrigger.T(() -> SuperStructure.isAlgea(), RobotConstants.BALL_HOLDING). withInRobotState(RobotConstants.BALL_SORTING));
+   T(StateTrigger.T(() -> SuperStructure.isAlgea(), RobotConstants.BALL_HOLDING). withInRobotState(RobotConstants.BALL_INTAKE));
 
-   T(StateTrigger.T(() -> getDriverController().getActionsDown() && SuperStructure.isAlgea(), RobotConstants.BALL_SCORING));
+   T(StateTrigger.T(() -> getDriverController().getActionsDown() && SuperStructure.isAlgea(), RobotConstants.BALL_PRESCORING));
 // need to add arm robot and eleavtor at point, has ball? 
-   T(StateTrigger.T(() -> SuperStructure.isAlgea(), RobotConstants.BALL_SCORING).withInRobotState(RobotConstants.BALL_SCORING));
+   T(StateTrigger.T(() -> getDriverController().getActionsDown() && SuperStructure.isAlgea(), RobotConstants.BALL_SCORING).withInRobotState(RobotConstants.BALL_PRESCORING));
 // need to add 30sec left for match
    T(StateTrigger.T(() -> getDriverController().getActionsUp() && DriverStation.getMatchTime() <= 30, RobotConstants.PRECLIMBING));
 // need to add open climber and servo open
