@@ -17,7 +17,6 @@ public class SuperStructure {
     private static Field.ScoringLocation scoringLocation;
     private static Field.BallHeight ballHeight;
 
-
     public static void setBallHeight(Field.BallHeight newBallHeight) {
         ballHeight = newBallHeight;
     }
@@ -34,7 +33,6 @@ public class SuperStructure {
         }
     }
 
-
     public static void setScoringPreset(Field.ScoringLevel ScoringLevel) {
         scoringLevel = ScoringLevel;
     }
@@ -43,9 +41,12 @@ public class SuperStructure {
         return scoringLevel;
     }
 
-
     public static final boolean isAlgea() {
-        return true;
+        return Intake.getInstance().getBallSensor() < IntakeConstants.BALL_INTAKE_DISTANCE;
+    }
+
+    public static final boolean isAlgeaGoodForScoring() {
+        return Intake.getInstance().getBallSensor() < IntakeConstants.BALL_SCORING_DISTANCE;
     }
 
     public static final boolean isCoral() {
