@@ -17,7 +17,6 @@ import frc.robot.Subsystem.Intake.IntakeConstants;
 
 public class RobotConstants {
 
-     //TODO: rempve spaces from states name
      //TODO:Add ball pre scoring
 
     public static final RobotState IDLE = new RobotState(
@@ -34,7 +33,7 @@ public class RobotConstants {
         ElevatorConstants.INTAKE);
 
     public static final RobotState CORAL_HOLD = new RobotState(
-        "CORAL_HOLD ",
+        "CORAL_HOLD",
         IntakeConstants.CORAL_HOLD,
         ArmConstants.CORAL_HOLDING,
         ElevatorConstants.HOLD);
@@ -50,23 +49,23 @@ public class RobotConstants {
         IntakeConstants.CORAL_EJECT);
 
     public static final RobotState BALL_INTAKE = new RobotState(
-        "BALL_INTAKE ",
+        "BALL_INTAKE",
         IntakeConstants.BALL_FORWARD,
         ArmConstants.BALL_INTAKE,
         ElevatorConstants.BALL_INTAKE);
         public static final RobotState BALL_SORTING = new RobotState(
-            "BALL_SORTING ",
+            "BALL_SORTING",
             IntakeConstants.BALL_SORTING,
             ArmConstants.BALL_SORTING);
 
     public static final RobotState BALL_HOLDING  = new RobotState(
-        "BALL_HOLDING ",
+        "BALL_HOLDING",
         IntakeConstants.BALL_HOLD,
         ArmConstants.BALL_HOLDING,
         ElevatorConstants.BALL_HOLDING);
 
     public static final RobotState BALL_SCORING = new RobotState(
-        "BALL_SCORING ",
+        "BALL_SCORING",
         IntakeConstants.BALL_BACKWARD,
         ArmConstants.BALL_SCORING,
         ElevatorConstants.BALL_SCORING);
@@ -88,43 +87,5 @@ public class RobotConstants {
         IntakeConstants.CORAL_SORTING);
 
 
-
-
-         //TODO: move to field
-
-
-    // FieldConstants
-    public static final Translation2d FieldZeroCorner = new Translation2d(0, 0);
-    public static final Translation2d FieldFarCorner = new Translation2d(17.548, 8.052);
-    public static final Translation2d FieldMiddlePoint = new Translation2d(17.548 / 2, 8.052 / 2);
-    public static final Rectangle2d FieldRectangle = new Rectangle2d(FieldZeroCorner, FieldFarCorner);
-    public static final Ellipse2d BLUE_REEF_CIRCLE = new Ellipse2d(new Translation2d(3.6576 + 0.831596, 4.0259), 0.9);
-    public static final Ellipse2d RED_REEF_CIRCLE = new Ellipse2d(new Translation2d(12.227305999999999 + 0.831596, 4.0259), 0.9);
-    public static final Translation2d ReefCenterBlue = new Translation2d(4.45, 4);//TODO
-    public static final Translation2d ReefCenterRed = new Translation2d(4.45, 13.2);//TODO
-    public static final Translation2d ReefCenter = DriverStationUtil.getAlliance() == Alliance.Blue ? ReefCenterBlue
-            : ReefCenterRed;
-
-    //Reef
-    public static final Pose2d Tag6Pose = new Pose2d(13.474446, 3.3063179999999996, Rotation2d.fromDegrees(120));
-    public static final Pose2d Tag7Pose = new Pose2d(13.890498, 4.0259, Rotation2d.fromDegrees(180));
-    public static final Pose2d Tag8Pose = new Pose2d(13.474446, 4.745482, Rotation2d.fromDegrees(-120));
-    public static final Pose2d Tag9Pose = new Pose2d(12.643358, 4.745482, Rotation2d.fromDegrees(-60));
-    public static final Pose2d Tag10Pose = new Pose2d(12.227305999999999, 4.0259, new Rotation2d(0));
-    public static final Pose2d Tag11Pose = new Pose2d(12.643358, 3.3063179999999996, Rotation2d.fromDegrees(60));
-
-    public static final Pose2d Tag17Pose = new Pose2d(4.073905999999999, 3.3063179999999996, Rotation2d.fromDegrees(60));
-    public static final Pose2d Tag18Pose = new Pose2d(3.6576, 4.0259, new Rotation2d(0));
-    public static final Pose2d Tag19Pose = new Pose2d(4.073905999999999, 4.745482, Rotation2d.fromDegrees(-60));
-    public static final Pose2d Tag20Pose = new Pose2d(4.904739999999999, 4.745482, Rotation2d.fromDegrees(-120));
-    public static final Pose2d Tag21Pose = new Pose2d(5.321046, 4.0259, Rotation2d.fromDegrees(180));
-    public static final Pose2d Tag22Pose = new Pose2d(4.904739999999999, 3.3063179999999996, Rotation2d.fromDegrees(120));
-
-
-    //Source
-    public static final Pose2d Tag1Pose = new Pose2d(16.697198, 0.65532, Rotation2d.fromDegrees(-52));
-    public static final Pose2d Tag2Pose = new Pose2d(16.697198, 7.3964799999999995, Rotation2d.fromDegrees(52));
-    public static final Pose2d Tag12Pose = new Pose2d(0.851154, 0.65532, Rotation2d.fromDegrees(-127));
-    public static final Pose2d Tag13Pose = new Pose2d(0.851154, 7.3964799999999995, Rotation2d.fromDegrees(127));
-
+    
 }
