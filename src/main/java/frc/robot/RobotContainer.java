@@ -33,7 +33,7 @@ public class RobotContainer extends DeafultRobotContainer {
   private void configureBindings() {
 // need to add distance from reef
 
- //TODO: rempve spaces from states name
+
 
    T(StateTrigger.T(() -> getDriverController().getMiddle() || getRobotState() == RobotConstants.EJECT && !SuperStructure.isGamePiece() || currentRobotState.getStateName() == RobotConstants.SCORING.getStateName(), RobotConstants.IDLE));
     
