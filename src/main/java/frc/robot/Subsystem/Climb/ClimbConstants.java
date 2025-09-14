@@ -28,12 +28,12 @@ public class ClimbConstants {
     .tolerance(0)
     .build();
 
-     //TODO: rempve spaces from states name
+    //lerner
 
     public static final State IDLE = new State("IDLE", Climb.getInstance());
-    public static final State OPEN = new State("OPEN  ", Climb.getInstance());   
+    public static final State OPEN = new State("OPEN", Climb.getInstance());   
     public static final State CLOSE = new State( "CLOSE", Climb.getInstance());
-    public static final State RSET = new State("RESET ", Climb.getInstance());
+    public static final State RSET = new State("RESET", Climb.getInstance());
 
     public static final double IDLE_ANGLE = 0;
     public static final double OPEN_ANGLE = 0;
