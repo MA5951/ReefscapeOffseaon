@@ -46,9 +46,10 @@ public class ArmConstants {
     public static final double CORAL_EJECT_ANGLE = 0;
     public static final double BALL_INTAKE_ANGLE = 0;
     public static final double BALL_HOLDING_ANGLE = 0;
+    public static final double BALL_SORTING_ANGLE = 0;
     public static final double BALL_PRESCORING_ANGLE = 0;
     public static final double BALL_SCORING_ANGLE = 0;
-    public static final double FLIPED_ANGLE = 0;
+    public static final double FLIPPED_ANGLE = 0;
     public static final double KP = 0;
     public static final double KI = 0;
     public static final double KD = 0;
