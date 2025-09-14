@@ -27,11 +27,11 @@ public class ArmConstants {
             .build();
 
 
-        //TODO: rempve spaces from states name
+      
 
     public static final State IDLE = new State("IDLE", Arm.getInstance());
     public static final State INTAKE = new State("INTAKE", Arm.getInstance());
-    public static final State CORAL_SCORING = new State("CORAL_SCORING ", Arm.getInstance());
+    public static final State CORAL_SCORING = new State("CORAL_SCORING", Arm.getInstance());
     public static final State BALL_INTAKE = new State("BALL_INTAKE", Arm.getInstance());
     public static final State BALL_HOLDING = new State("BALL_HOLDING", Arm.getInstance());
     public static final State BALL_PRESCORING = new State("BALL_PRESCORING", Arm.getInstance());

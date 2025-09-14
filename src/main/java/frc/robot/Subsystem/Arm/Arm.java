@@ -22,9 +22,7 @@ public class Arm extends PositionControlledSystem {
         return true;
     }
 
-    public static int getLevel() {//TODO: remove
-        return 1;
-    }
+
     public static final Arm getInstance() {
         if (arm == null) {
             arm = new Arm();
