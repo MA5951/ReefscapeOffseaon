@@ -27,7 +27,7 @@ public class ElevatorCommand extends SubsystemCommand {
                 elveator.setPosition(SuperStructure.getScoringPreset().height);
                 break;
             case "BALL_INTAKE":
-                elveator.setPosition(SuperStructure.getBallHeight().HIGHT);
+                elveator.setPosition(SuperStructure.getBallHeight().elevatorHeight);
                 break;
             case "BALL_HOLDING":
                 elveator.setPosition(ElevatorConstants.BALL_HOLDING_HEIGHT);

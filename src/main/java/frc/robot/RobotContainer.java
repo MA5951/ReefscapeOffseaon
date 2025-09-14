@@ -41,7 +41,7 @@ public class RobotContainer extends DeafultRobotContainer {
 
    T(StateTrigger.T(() -> SuperStructure.isCoral(), RobotConstants.SORTING).withInRobotState(RobotConstants.INTAKE));
 
-   T(StateTrigger.T(() -> SuperStructure.isCoral() && IntakeCommand.i == IntakeConstants.SORTING_NUM, RobotConstants.CORAL_HOLD).withInRobotState(RobotConstants.SORTING));
+   T(StateTrigger.T(() -> SuperStructure.isCoral() && IntakeCommand.sortingCount == IntakeConstants.SORTING_NUM, RobotConstants.CORAL_HOLD).withInRobotState(RobotConstants.SORTING));
 
    T(StateTrigger.T(() -> getDriverController().getActionsDown() && SuperStructure.isCoral(), RobotConstants.SCORING ));
 // need to add arm robot and eleavtor at point
@@ -49,7 +49,7 @@ public class RobotContainer extends DeafultRobotContainer {
 
    T(StateTrigger.T(() -> getDriverController().getActionsRight() && !SuperStructure.isGamePiece(), RobotConstants.BALL_INTAKE));
 
-   T(StateTrigger.T(() -> Intake.getInstance().getBallSensor(), RobotConstants.BALL_SORTING).withInRobotState(RobotConstants.BALL_INTAKE));
+   T(StateTrigger.T(() -> SuperStructure.isAlgea(), RobotConstants.BALL_SORTING).withInRobotState(RobotConstants.BALL_INTAKE));
 // need to add distance from reef
    T(StateTrigger.T(() -> SuperStructure.isAlgea(), RobotConstants.BALL_HOLDING). withInRobotState(RobotConstants.BALL_SORTING));
 
