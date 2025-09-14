@@ -25,58 +25,55 @@ public class IntakeCommand extends SubsystemCommand {
             case "IDLE":
                 intake.setVoltage(IntakeConstants.IDLE_VOLTS);
                 break;
-            case "CORAL_FORWARD":
-                intake.setVoltage(IntakeConstants.CORAL_FORWARD_VOLTS);
+            case "CORAL_INTAKE":
+                intake.setVoltage(IntakeConstants.CORAL_INTAKE_VOLTS);
                 break;
-            case "CORAL_EJECT":
-                if (Arm.getInstance().getPosition() < ArmConstants.CORAL_EJECT_ANGLE) {
-                    intake.setVoltage(IntakeConstants.CORAL_FORWARD_VOLTS);
-                } else {
+            case "CORAL_SCORING":
+                intake.setVoltage(SuperStructure.getScoringPreset().ejectVolt);
+            case "EJECT":
+                if (SuperStructure.isAlgea()) {
+                    intake.setVoltage(IntakeConstants.BALL_EJECT_VOLTS);
+                } else if (SuperStructure.isIntakeFlipped()) {
                     intake.setVoltage(IntakeConstants.CORAL_EJECT_VOLTS);
+                } else {
+                    intake.setVoltage(IntakeConstants.CORAL_FORWARD_VOLTS);
                 }
                 break;
-            case "BALL_FORWARD":
-                intake.setVoltage(IntakeConstants.BALL_FORWARD_VOLTS);
+            case "BALL_INTAKE":
+                intake.setVoltage(IntakeConstants.BALL_INTAKE_VOLTS);
                 break;
-            case "BALL_BACKWARD":
-                intake.setVoltage(IntakeConstants.BALL_BACKWARD_VOLTS);
+            case "BALL_SCORING":
+                if (SuperStructure.isAlgeaGoodForScoring()) {
+                    intake.setVoltage(IntakeConstants.BALL_SCORING_VOLTS);
+                } else {
+                    intake.setVoltage(IntakeConstants.BALL_BEFORE_SCORING_VOLTS);
+                }
                 break;
             case "CORAL_HOLD":
                 intake.setVoltage(IntakeConstants.CORAL_HOLD_VOLTS);
                 break;
             case "BALL_HOLD":
-                intake.setVoltage(IntakeConstants.BALL_HOLD_VOLTS);
-                break;
+                if (Intake.getInstance().getBallSensor() < IntakeConstants.BALL_HOLDING_MIN_DISTANCE)
+                    intake.setVoltage(IntakeConstants.BALL_HOLD_FORWARD_VOLTS);
+                else if (Intake.getInstance().getBallSensor() > IntakeConstants.BALL_HOLDING_MAX_DISTANCE)
+                    intake.setVoltage(IntakeConstants.BALL_HOLD_BACKWARD_VOLTS);
+                else
+                    break;
             case "CORAL_SORTING":
                 sortingCount = 0;
-                if (cycle == true && !SuperStructure.isRearSensore()) {
+                if (cycle == true && !Intake.getInstance().getRearSensor()) {
                     sortingCount++;
                     cycle = false;
                 }
-                if (SuperStructure.isRearSensore()) {
+                if (Intake.getInstance().getRearSensor()) {
                     cycle = true;
                     intake.setVoltage(IntakeConstants.CORAL_SORTING_BACKWARD_VOLTS);
                 }
-                if (!SuperStructure.isRearSensore()) {
+                if (!Intake.getInstance().getRearSensor()) {
                     intake.setVoltage(IntakeConstants.CORAL_SORTING_FORWARD_VOLTS);
                 }
                 break;
-            case "BALL_SORTING":
-                sortingCount = 0;
-                if (cycle == true && !SuperStructure.isAlgea()) {
-                    sortingCount++;
-                    cycle = false;
-                }
 
-                if (SuperStructure.isAlgea()) {
-                    cycle = true;
-                    intake.setVoltage(IntakeConstants.BALL_SORTING_BACKWARD_VOLTS);
-                }
-
-                if (!SuperStructure.isAlgea()) {
-                    intake.setVoltage(IntakeConstants.BALL_SORTING_FORWARD_VOLTS);
-                }
-                break;
         }
     }
 
