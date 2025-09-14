@@ -12,7 +12,7 @@ import frc.robot.Subsystem.Intake.IntakeConstants;
 public class IntakeCommand extends SubsystemCommand {
     private static final Intake intake = Intake.getInstance();
     private boolean cycle = false;
-    public static int i = 0;
+    public static int i = 0;//TODO: rename
 
     public IntakeCommand() {
         super(Intake.getInstance());
@@ -29,7 +29,7 @@ public class IntakeCommand extends SubsystemCommand {
                 intake.setVoltage(IntakeConstants.CORAL_FORWARD_VOLTS);
                 break;
             case "CORAL_EJECT":
-                if (Arm.getInstance().getPosition() < ArmConstants.CORAL_EJECT_ANGLE) {
+                if (Arm.getInstance().getPosition() < ArmConstants.CORAL_EJECT_ANGLE) {//TODO: cahnge to SUperStructure.isIntakeFlipped
                     intake.setVoltage(IntakeConstants.CORAL_FORWARD_VOLTS);
                 } else {
                     intake.setVoltage(IntakeConstants.CORAL_EJECT_VOLTS);

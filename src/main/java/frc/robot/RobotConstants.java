@@ -17,6 +17,9 @@ import frc.robot.Subsystem.Intake.IntakeConstants;
 
 public class RobotConstants {
 
+     //TODO: rempve spaces from states name
+     //TODO:Add ball pre scoring
+
     public static final RobotState IDLE = new RobotState(
         "IDLE", 
         IntakeConstants.IDLE,
@@ -68,13 +71,13 @@ public class RobotConstants {
         ArmConstants.BALL_SCORING,
         ElevatorConstants.BALL_SCORING);
 
-    public static final RobotState PRECLIMBING = new RobotState("PRECLIMBING ",
+    public static final RobotState PRECLIMBING = new RobotState("PRECLIMBING",
         IntakeConstants.IDLE,
         ArmConstants.IDLE,
         ElevatorConstants.CLOSE,
         ClimbConstants.OPEN);
 
-    public static final RobotState CLIMBING = new RobotState("PRECLIMBING ",
+    public static final RobotState CLIMBING = new RobotState("PRECLIMBING",
         IntakeConstants.IDLE,
         ArmConstants.IDLE,
         ElevatorConstants.CLOSE,
@@ -85,6 +88,9 @@ public class RobotConstants {
         IntakeConstants.CORAL_SORTING);
 
 
+
+
+         //TODO: move to field
 
 
     // FieldConstants

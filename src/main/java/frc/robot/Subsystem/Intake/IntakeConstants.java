@@ -20,6 +20,8 @@ public class IntakeConstants {
     .isBrake(true)
     .build(PowerSystemConstants::new);
 
+     //TODO: rempve spaces from states name
+
     public static final State IDLE = new State("IDLE", Intake.getInstance());
     public static final State CORAL_FORWARD = new State("CORAL_FORWARD", Intake.getInstance());
     public static final State CORAL_EJECT  = new State("CORAL_EJECT ", Intake.getInstance());

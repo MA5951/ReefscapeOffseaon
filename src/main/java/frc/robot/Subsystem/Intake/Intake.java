@@ -19,11 +19,11 @@ public class Intake extends PowerControlledSystem {
        return null;
     }
 
-    public boolean Intakecanmove(){
+    public boolean Intakecanmove(){//TODO: remove
      return false;
     }
 
-    public boolean Holdcanmove(){
+    public boolean Holdcanmove(){//TODO: remove
       if(RobotContainer.getRobotState().getStateName() == RobotConstants.INTAKE.getStateName() ) {}
 
       return true;
@@ -40,14 +40,14 @@ public class Intake extends PowerControlledSystem {
     public boolean getFrontSensor() {
         return false;
     }
-public boolean isCoral() {
+public boolean isCoral() {//TODO: remove
         if (getFrontSensor() || getRearSensor()) {
             return true;
         } else {
             return false;
         }
     }
-public boolean getBallSensor() {
+public boolean getBallSensor() {//TODO: remove
        if (BallSensor() < IntakeConstants.BALL_DISTANCE) {
            return true;
        } else {
@@ -55,7 +55,7 @@ public boolean getBallSensor() {
        }
     }
     
-    public boolean isGamePiece() {
+    public boolean isGamePiece() {//TODO: remove
         if (getBallSensor() || isCoral()){
             return true;
         } else {

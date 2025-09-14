@@ -30,7 +30,10 @@ public class ElevatorConstants {
     .range(0, 0)
     .tolerance(0)
     .build();
-    // TODO
+    
+
+     //TODO: rempve spaces from states name
+      //TODO: cahnge to elevator in states
 
     public static final State IDLE = new State("IDLE", Climb.getInstance());
     public static final State INTAKE = new State("INTAKE", Climb.getInstance());

@@ -22,11 +22,11 @@ public class Elevator extends PositionControlledSystem {
         return true;
     }
 
-    public static int getHeight() {
+    public static int getHeight() {//TODO: remove
         return 1;
     }
 
-   public static int getBallHeight() {
+   public static int getBallHeight() {//TODO: remove
     return 1;
    }
     public static final Elevator getInstance() {
