@@ -1,5 +1,5 @@
 
-package frc.robot.Command;
+package frc.robot.Commands;
 
 import com.MAutils.RobotControl.SubsystemCommand;
 

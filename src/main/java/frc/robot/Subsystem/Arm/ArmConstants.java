@@ -26,15 +26,18 @@ public class ArmConstants {
             .tolerance(0)
             .build();
 
+
+        //TODO: rempve spaces from states name
+
     public static final State IDLE = new State("IDLE", Arm.getInstance());
-    public static final State INTAKE = new State("INTAKE  ", Arm.getInstance());
+    public static final State INTAKE = new State("INTAKE", Arm.getInstance());
     public static final State CORAL_SCORING = new State("CORAL_SCORING ", Arm.getInstance());
     public static final State BALL_INTAKE = new State("BALL_INTAKE", Arm.getInstance());
     public static final State BALL_HOLDING = new State("BALL_HOLDING", Arm.getInstance());
     public static final State BALL_PRESCORING = new State("BALL_PRESCORING", Arm.getInstance());
     public static final State BALL_SCORING = new State("BALL_SCORING", Arm.getInstance());
-    public static final State CORAL_HOLDING = new State("CORAL_HOLDING ", Arm.getInstance());
-    public static final State BALL_SORTING = new State("BALL_SORTING ", Arm.getInstance());
+    public static final State CORAL_HOLDING = new State("CORAL_HOLDING", Arm.getInstance());
+    public static final State BALL_SORTING = new State("BALL_SORTING", Arm.getInstance());
 
 
     public static final double IDLE_ANGLE = 0;

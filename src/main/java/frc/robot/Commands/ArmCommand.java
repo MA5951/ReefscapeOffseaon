@@ -3,6 +3,7 @@ package frc.robot.Commands;
 
 import com.MAutils.RobotControl.SubsystemCommand;
 
+import frc.robot.RobotControl.SuperStructure;
 import frc.robot.Subsystem.Arm.Arm;
 import frc.robot.Subsystem.Arm.ArmConstants;
 
@@ -24,7 +25,7 @@ public class ArmCommand extends SubsystemCommand {
                 arm.setPosition(ArmConstants.INTAKE_ANGLE);
                 break;
             case "CORAL_SCORING":
-                arm.setPosition(Arm.getLevel());
+                arm.setPosition(SuperStructure.getScoringPreset().angle);
                 break;
             case "BALL_INTAKE":
                 arm.setPosition(ArmConstants.BALL_INTAKE_ANGLE);

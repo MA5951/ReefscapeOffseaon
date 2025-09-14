@@ -13,6 +13,9 @@ public class SuperStructure {
     private static Field.ScoringLocation scoringLocation;
 
 
+    //TODO: add get BallHight
+
+
     public static void setScoringPreset(Field.ScoringLevel ScoringLevel) {
         scoringLevel = ScoringLevel;
     }
@@ -21,6 +24,7 @@ public class SuperStructure {
         return scoringLevel;
     }
 
+    //TODO: remove
     public static final boolean istFrontSensore() {
         return true;
     }

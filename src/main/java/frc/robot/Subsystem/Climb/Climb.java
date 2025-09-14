@@ -18,7 +18,7 @@ public class Climb extends PositionControlledSystem {
     public Command getSelfTest() {
         return null;
     }
-    public boolean isSensorPressed(){
+    public boolean isSensorPressed(){//TODO: rename
         return false;
     }
 
