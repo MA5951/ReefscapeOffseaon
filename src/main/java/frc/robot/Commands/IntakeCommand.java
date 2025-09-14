@@ -12,7 +12,7 @@ import frc.robot.Subsystem.Intake.IntakeConstants;
 public class IntakeCommand extends SubsystemCommand {
     private static final Intake intake = Intake.getInstance();
     private boolean cycle = false;
-    public static int i = 0;//TODO: rename
+    public static int sortingCount = 0;// TODO: rename
 
     public IntakeCommand() {
         super(Intake.getInstance());
@@ -29,7 +29,7 @@ public class IntakeCommand extends SubsystemCommand {
                 intake.setVoltage(IntakeConstants.CORAL_FORWARD_VOLTS);
                 break;
             case "CORAL_EJECT":
-                if (Arm.getInstance().getPosition() < ArmConstants.CORAL_EJECT_ANGLE) {//TODO: cahnge to SUperStructure.isIntakeFlipped
+                if (Arm.getInstance().getPosition() < ArmConstants.CORAL_EJECT_ANGLE) {
                     intake.setVoltage(IntakeConstants.CORAL_FORWARD_VOLTS);
                 } else {
                     intake.setVoltage(IntakeConstants.CORAL_EJECT_VOLTS);
@@ -48,9 +48,9 @@ public class IntakeCommand extends SubsystemCommand {
                 intake.setVoltage(IntakeConstants.BALL_HOLD_VOLTS);
                 break;
             case "CORAL_SORTING":
-                i = 0;
+                sortingCount = 0;
                 if (cycle == true && !SuperStructure.isRearSensore()) {
-                    i++;
+                    sortingCount++;
                     cycle = false;
                 }
                 if (SuperStructure.isRearSensore()) {
@@ -61,24 +61,24 @@ public class IntakeCommand extends SubsystemCommand {
                     intake.setVoltage(IntakeConstants.CORAL_SORTING_FORWARD_VOLTS);
                 }
                 break;
-            case "BALL_SORTING":  
-                 i = 0;
+            case "BALL_SORTING":
+                sortingCount = 0;
                 if (cycle == true && !SuperStructure.isAlgea()) {
-                    i++;
+                    sortingCount++;
                     cycle = false;
                 }
-        
+
                 if (SuperStructure.isAlgea()) {
                     cycle = true;
                     intake.setVoltage(IntakeConstants.BALL_SORTING_BACKWARD_VOLTS);
                 }
-        
+
                 if (!SuperStructure.isAlgea()) {
                     intake.setVoltage(IntakeConstants.BALL_SORTING_FORWARD_VOLTS);
                 }
                 break;
-            }
         }
+    }
 
     @Override
     public void Manual() {
@@ -91,4 +91,3 @@ public class IntakeCommand extends SubsystemCommand {
     }
 
 }
-

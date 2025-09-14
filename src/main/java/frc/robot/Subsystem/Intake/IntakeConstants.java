@@ -20,17 +20,17 @@ public class IntakeConstants {
     .isBrake(true)
     .build(PowerSystemConstants::new);
 
-     //TODO: rempve spaces from states name
+    
 
     public static final State IDLE = new State("IDLE", Intake.getInstance());
     public static final State CORAL_FORWARD = new State("CORAL_FORWARD", Intake.getInstance());
-    public static final State CORAL_EJECT  = new State("CORAL_EJECT ", Intake.getInstance());
-    public static final State BALL_FORWARD  = new State("BALL_FORWARD ", Intake.getInstance());
-    public static final State BALL_BACKWARD  = new State("BALL_BACKWARD ", Intake.getInstance());
-    public static final State CORAL_HOLD   = new State("CORAL_HOLD  ", Intake.getInstance());
-    public static final State BALL_HOLD   = new State("BALL_HOLD  ", Intake.getInstance());
-    public static final State CORAL_SORTING  = new State("CORAL_SORTING ", Intake.getInstance());
-    public static final State BALL_SORTING  = new State("BALL_SORTING ", Intake.getInstance());
+    public static final State CORAL_EJECT  = new State("CORAL_EJECT", Intake.getInstance());
+    public static final State BALL_FORWARD  = new State("BALL_FORWARD", Intake.getInstance());
+    public static final State BALL_BACKWARD  = new State("BALL_BACKWARD", Intake.getInstance());
+    public static final State CORAL_HOLD   = new State("CORAL_HOLD", Intake.getInstance());
+    public static final State BALL_HOLD   = new State("BALL_HOLD", Intake.getInstance());
+    public static final State CORAL_SORTING  = new State("CORAL_SORTING", Intake.getInstance());
+    public static final State BALL_SORTING  = new State("BALL_SORTING", Intake.getInstance());
 
     public static final double IDLE_VOLTS = 0;
     public static final double CORAL_FORWARD_VOLTS = 0;
