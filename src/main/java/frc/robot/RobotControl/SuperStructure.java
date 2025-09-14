@@ -6,7 +6,10 @@ import com.MAutils.Logger.MALog;
 import frc.robot.RobotConstants;
 import frc.robot.RobotContainer;
 import frc.robot.RobotControl.Field.ScoringLocation;
+import frc.robot.Subsystem.Arm.Arm;
+import frc.robot.Subsystem.Arm.ArmConstants;
 import frc.robot.Subsystem.Intake.Intake;
+import frc.robot.Subsystem.Intake.IntakeConstants;
 
 public class SuperStructure {
 
@@ -21,6 +24,14 @@ public class SuperStructure {
 
     public static Field.BallHieght getBallHeight() {
         return ballHeight;
+    }
+
+    public static boolean isIntakeFlipped() {
+        if (Arm.getInstance().getPosition() < ArmConstants.FLIPPED_ANGLE) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
 

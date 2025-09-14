@@ -60,7 +60,7 @@ public class Field {
 
         public static enum BallHieght {
                 HIGH(ElevatorConstants.BALL_HEIGHT_INTAKE), // HIGHT_EJECT_BALL_HIGH
-                LOW(ElevatorConstants.BALL_HEIGHT_INTAKE),
+                LOW(ElevatorConstants.BALL_LOW_INTAKE_HEIGHT),
                 NONE(0);
 
                 public final double elevatorHieght;
