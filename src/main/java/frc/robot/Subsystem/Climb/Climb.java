@@ -18,7 +18,7 @@ public class Climb extends PositionControlledSystem {
     public Command getSelfTest() {
         return null;
     }
-    public boolean isSensorPressed(){//TODO: rename
+    public boolean isatHoldPosition(){
         return false;
     }
 
@@ -40,7 +40,7 @@ public boolean climbingCanMove(){
 
 
 public boolean restartCanMove(){
-    if (RobotContainer.getRobotState().getStateName() != RobotConstants.CLIMBING.getStateName() && !isSensorPressed()){
+    if (RobotContainer.getRobotState().getStateName() != RobotConstants.CLIMBING.getStateName() && !isatHoldPosition()){
         return true;
     } else {
         return false;
