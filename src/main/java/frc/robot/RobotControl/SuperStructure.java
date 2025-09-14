@@ -12,15 +12,15 @@ public class SuperStructure {
 
     private static Field.ScoringLevel scoringLevel;
     private static Field.ScoringLocation scoringLocation;
-    private static Field.BallHight ballHight;
+    private static Field.BallHieght ballHeight;
 
 
-    public static void setBallHeight(Field.BallHight newBallHight) {
-        ballHight = newBallHight;
+    public static void setBallHeight(Field.BallHieght newBallHeight) {
+        ballHeight = newBallHeight;
     }
 
-    public static Field.BallHight getBallHeight() {
-        return ballHight;
+    public static Field.BallHieght getBallHeight() {
+        return ballHeight;
     }
 
 
