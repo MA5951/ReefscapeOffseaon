@@ -28,6 +28,7 @@ public class ClimbConstants {
     .tolerance(0)
     .build();
 
+    //lerner
 
     public static final State IDLE = new State("IDLE", Climb.getInstance());
     public static final State OPEN = new State("OPEN", Climb.getInstance());   
