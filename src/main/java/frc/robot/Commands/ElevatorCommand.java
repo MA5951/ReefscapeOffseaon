@@ -2,6 +2,7 @@ package frc.robot.Commands;
 
 import com.MAutils.RobotControl.SubsystemCommand;
 
+import frc.robot.RobotControl.SuperStructure;
 import frc.robot.Subsystem.Elevator.Elevator;
 import frc.robot.Subsystem.Elevator.ElevatorConstants;
 
@@ -23,10 +24,10 @@ public class ElevatorCommand extends SubsystemCommand {
                 elveator.setPosition(ElevatorConstants.INTAKE_HEIGHT);
                 break;
             case "SCORING":
-                elveator.setPosition(Elevator.getHeight());
+                elveator.setPosition(SuperStructure.getScoringPreset().height);
                 break;
             case "BALL_INTAKE":
-                elveator.setPosition(Elevator.getBallHeight());
+                elveator.setPosition(SuperStructure.getBallHeight().HIGHT);
                 break;
             case "BALL_HOLDING":
                 elveator.setPosition(ElevatorConstants.BALL_HOLDING_HEIGHT);
