@@ -39,6 +39,7 @@ public class ElevatorConstants {
     public static final State SCORING = new State("SCORING", Elevator.getInstance());
     public static final State BALL_INTAKE = new State("BALL_INTAKE", Elevator.getInstance());
     public static final State BALL_HOLDING = new State("BALL_HOLDING", Elevator.getInstance());
+    public static final State BALL_PRESCORING = new State("BALL_PRESCORING", Elevator.getInstance());
     public static final State BALL_SCORING = new State("BALL_SCORING", Elevator.getInstance());
     public static final State CLOSE = new State("CLOSE_HIGHT", Elevator.getInstance());
     public static final State HOLD = new State("HOLD", Elevator.getInstance());
@@ -50,6 +51,7 @@ public class ElevatorConstants {
     public static final double BALL_LOW_INTAKE_HEIGHT = 0;
     public static final double BALL_HIGH_INTAKE_HEIGHT = 0;
     public static final double BALL_HOLDING_HEIGHT = 0;
+    public static final double BALL_PRESCORING_HEIGHT = 0;
     public static final double BALL_SCORING_HEIGHT = 0;
     public static final double CLOSE_HEIGHT = 0;
     public static final double HOLDING_HEIGHT = 0;
