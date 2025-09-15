@@ -2,14 +2,7 @@
 package frc.robot;
 
 import com.MAutils.RobotControl.RobotState;
-import com.MAutils.Utils.DriverStationUtil;
 
-import edu.wpi.first.math.geometry.Ellipse2d;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rectangle2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.Subsystem.Arm.ArmConstants;
 import frc.robot.Subsystem.Climb.ClimbConstants;
 import frc.robot.Subsystem.Elevator.ElevatorConstants;

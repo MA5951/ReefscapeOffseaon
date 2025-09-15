@@ -41,7 +41,7 @@ public class ElevatorConstants {
     public static final State BALL_HOLDING = new State("BALL_HOLDING", Elevator.getInstance());
     public static final State BALL_PRESCORING = new State("BALL_PRESCORING", Elevator.getInstance());
     public static final State BALL_SCORING = new State("BALL_SCORING", Elevator.getInstance());
-    public static final State CLOSE = new State("CLOSE_HIGHT", Elevator.getInstance());
+    public static final State CLOSE = new State("CLOSE", Elevator.getInstance());
     public static final State HOLD = new State("HOLD", Elevator.getInstance());
 
 
