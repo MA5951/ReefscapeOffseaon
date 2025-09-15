@@ -49,8 +49,8 @@ public class IntakeConstants {
     public static final double BALL_BEFORE_SCORING_VOLTS = 0;
     public static final double SORTING_NUM = 0;
     public static final double BALL_EJECT_VOLTS = 0;
-    public static final double BALL_SORTING_NUM = 0;
-    public static final double BALL_DISTANCE = 0;
+    
+    
     public static final double BALL_SCORING_DISTANCE = 0;
     public static final double BALL_INTAKE_DISTANCE = 0;
     public static final double BALL_HOLDING_MAX_DISTANCE = 0;

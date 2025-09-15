@@ -35,7 +35,7 @@ public class RobotContainer extends DeafultRobotContainer {
 
 
 
-   T(StateTrigger.T(() -> getDriverController().getMiddle() || getRobotState() == RobotConstants.EJECT && !SuperStructure.isGamePiece() || currentRobotState.getStateName() == RobotConstants.SCORING.getStateName(), RobotConstants.IDLE));
+   T(StateTrigger.T(() -> getDriverController().getMiddle() || getRobotState() == RobotConstants.EJECT && !SuperStructure.isGamePiece() || getRobotState() == RobotConstants.SCORING && !SuperStructure.isGamePiece() || getRobotState() == RobotConstants.BALL_SCORING && !SuperStructure.isAlgea(), RobotConstants.IDLE));
     
    T(StateTrigger.T(() -> (getDriverController().getR1() || getDriverController().getL1()) && !SuperStructure.isGamePiece(), RobotConstants.INTAKE));
 

@@ -17,7 +17,6 @@ import frc.robot.Subsystem.Intake.IntakeConstants;
 
 public class RobotConstants {
 
-    // TODO:Add ball pre scoring
 
     public static final RobotState IDLE = new RobotState(
             "IDLE",
