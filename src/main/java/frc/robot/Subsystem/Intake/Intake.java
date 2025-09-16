@@ -31,7 +31,7 @@ public class Intake extends PowerControlledSystem {
     }
 
     
-public double BallSensor() {
+public double getBallSensor() {
         return 0;
     }
 

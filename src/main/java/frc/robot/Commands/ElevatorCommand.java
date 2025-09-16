@@ -32,6 +32,9 @@ public class ElevatorCommand extends SubsystemCommand {
             case "BALL_HOLDING":
                 elveator.setPosition(ElevatorConstants.BALL_HOLDING_HEIGHT);
                 break;
+            case "BALL_PRESCORING":
+                elveator.setPosition(ElevatorConstants.BALL_PRESCORING_HEIGHT);
+                break;
             case "BALL_SCORING":
                 elveator.setPosition(ElevatorConstants.BALL_SCORING_HEIGHT);
                 break;
@@ -51,7 +54,7 @@ public class ElevatorCommand extends SubsystemCommand {
 
     @Override
     public void CantMove() {
-        
+
     }
 
 }
