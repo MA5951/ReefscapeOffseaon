@@ -2,8 +2,6 @@ package com.MAutils.RobotControl;
 
 import java.util.function.Supplier;
 
-import org.ironmaple.simulation.SimulatedArena;
-
 import com.MAutils.Controllers.MAController;
 import com.MAutils.Controllers.PS5MAController;
 import com.MAutils.Controllers.XboxMAController;
@@ -21,7 +19,7 @@ public class DeafultRobotContainer {
 
     protected static RobotState currentRobotState;
     protected static RobotState lastRobotState;
-    protected static MAController driverController = new PS5MAController(Constants.DRIVER_CONTROLLER_PORT);
+    protected static MAController driverController = new XboxMAController(Constants.DRIVER_CONTROLLER_PORT);
     protected static MAController operatorController = new PS5MAController(Constants.OPERATOR_CONTROLLER_PORT);
     private static AutoSelector autoSelector;
 

@@ -21,7 +21,7 @@ public class Robot extends TimedRobot {
 
   public Robot() {
     m_robotContainer = new RobotContainer();
-    PoseEstimator.resetPose(new Pose2d(4, 2, new Rotation2d()));
+    PoseEstimator.resetPose(new Pose2d(2, 2, new Rotation2d()));
   }
 
   @Override

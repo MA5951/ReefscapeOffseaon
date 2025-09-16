@@ -75,6 +75,7 @@ public class AprilTagCamera extends Camera {
 
     @Override
     public void update() {
+        cameraIO.update();
         logIO();
 
         aprilTagFilters.updateFiltersConfig(getFiltersConfig());

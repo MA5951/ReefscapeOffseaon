@@ -67,7 +67,7 @@ public class SuperStructure {
     }
 
     public static Pose2d getXYAdjustSetPoint() {
-        return new Pose2d(2,2,new Rotation2d());
+        return new Pose2d(1,5,new Rotation2d());
     }
 
 }

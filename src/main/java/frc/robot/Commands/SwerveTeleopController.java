@@ -13,10 +13,15 @@ public class SwerveTeleopController extends SwerveSystemController{
     }
 
     public void ConfigControllers() {
-        SwerveConstants.ANGLE_PID_CONTROLLER.enableContinuousInput(-180, 180);
     }
 
     public void SetSwerveState() {
-        setState(SwerveConstants.POSE_ALIGN);
+
+        if (RobotContainer.getDriverController().getL2()) {
+            setState(SwerveConstants.POSE_ALIGN);
+        } else {
+            setState(SwerveConstants.FIELD_CENTRIC);
+        }
+        
     }
 }

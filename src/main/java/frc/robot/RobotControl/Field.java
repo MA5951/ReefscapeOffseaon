@@ -2,8 +2,11 @@
 package frc.robot.RobotControl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+
+import org.ironmaple.utils.FieldMirroringUtils;
 
 import com.MAutils.Utils.DriverStationUtil;
 
@@ -12,6 +15,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rectangle2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.RobotConstants;
 import frc.robot.Subsystem.Arm.ArmConstants;
@@ -114,6 +119,33 @@ public class Field {
         private static double closestDistanceReef;
         private static double spatialDistanceReef;
         private static boolean wasFieldSet = false;
+
+        public static final Pose2d[] blueCenterFaces = {
+            new Pose2d(Units.inchesToMeters(144.003), Units.inchesToMeters(158.500), Rotation2d.fromDegrees(180)),
+            new Pose2d(Units.inchesToMeters(160.373), Units.inchesToMeters(186.857), Rotation2d.fromDegrees(120)),
+            new Pose2d(
+                    Units.inchesToMeters(192.913),
+                    Units.inchesToMeters(186.858),
+                    Rotation2d.fromDegrees(60)), // 193.116
+            new Pose2d(Units.inchesToMeters(209.489), Units.inchesToMeters(158.502), Rotation2d.fromDegrees(0)),
+            new Pose2d(
+                    Units.inchesToMeters(192.913),
+                    Units.inchesToMeters(130.145),
+                    Rotation2d.fromDegrees(-60)), // 193.118
+            new Pose2d(Units.inchesToMeters(160.375), Units.inchesToMeters(130.144), Rotation2d.fromDegrees(-120))
+        };
+
+        public static final Pose2d[] redCenterFaces = Arrays.stream(blueCenterFaces)
+                .map(blueFace -> new Pose2d(
+                        FieldMirroringUtils.flip(blueFace.getTranslation()),
+                        FieldMirroringUtils.flip(blueFace.getRotation())))
+                .toArray(Pose2d[]::new);
+
+         public static List<Pose2d> getAllianceReefList() {
+            boolean isRed = DriverStation.getAlliance().isPresent()
+                    && DriverStation.getAlliance().get() == Alliance.Red;
+            return Arrays.asList(blueCenterFaces);//TODO: By alliance
+        }
 
         public Field() {
                 // Blue Side

@@ -6,20 +6,18 @@ import java.util.function.Supplier;
 import com.MAutils.Logger.MALog;
 import com.MAutils.Swerve.SwerveSystem;
 import com.MAutils.Swerve.SwerveSystemConstants;
+import com.MAutils.Swerve.Utils.PIDController;
 import com.MAutils.Swerve.Utils.SwerveController;
 import com.MAutils.Utils.ChassisSpeedsUtil;
-import com.MAutils.Utils.Constants;
 
-import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.Timer;
 
-public class XYAdjustController extends SwerveController {
+public class XYAdjustControllerPID extends SwerveController {
 
-    private ProfiledPIDController xController;
-    private ProfiledPIDController yController;
+    private PIDController xController;
+    private PIDController yController;
     private Supplier<Pose2d> measurmentSupplier;
     private Supplier<Pose2d> setPointSupplier;
     private Supplier<Double> gyroSupplier;
@@ -27,8 +25,8 @@ public class XYAdjustController extends SwerveController {
     private double lastTimeRan = 0;
     private Supplier<ChassisSpeeds> speedsSupplier;
 
-    public XYAdjustController(SwerveSystemConstants swerveSystem, ProfiledPIDController xController,
-            ProfiledPIDController yController,
+    public XYAdjustControllerPID(SwerveSystemConstants swerveSystem, PIDController xController,
+    PIDController yController,
             Supplier<Pose2d> measurment) {
         super("XY Adjust Controller");
         this.xController = xController;
@@ -38,54 +36,34 @@ public class XYAdjustController extends SwerveController {
         speedsSupplier = () -> SwerveSystem.getInstance(swerveSystem).getChassisSpeeds();
     }
 
-    public XYAdjustController withGyroSupplier(Supplier<Double> gyroSupplier) {
+    public XYAdjustControllerPID withGyroSupplier(Supplier<Double> gyroSupplier) {
         this.gyroSupplier = gyroSupplier;
         return this;
     }
 
-    public XYAdjustController withFieldRelative(boolean fieldRelative) {
+    public XYAdjustControllerPID withFieldRelative(boolean fieldRelative) {
         this.fieldRelative = fieldRelative;
 
         return this;
     }
 
-    public XYAdjustController withXYControllers(ProfiledPIDController xController, ProfiledPIDController yController) {
+    public XYAdjustControllerPID withXYControllers(PIDController xController, PIDController yController) {
         this.xController = xController;
         this.yController = yController;
         return this;
     }
 
-    public XYAdjustController withXYSetPoint(Supplier<Pose2d> setPoint) {
+    public XYAdjustControllerPID withXYSetPoint(Supplier<Pose2d> setPoint) {
         this.setPointSupplier = () -> setPoint.get();
         return this;
     }
 
-    public XYAdjustController withXYSetPoint(Pose2d setPoint) {
+    public XYAdjustControllerPID withXYSetPoint(Pose2d setPoint) {
         this.setPointSupplier = () -> setPoint;
         return this;
     }
 
     public void updateSpeeds() {
-        if ((Timer.getFPGATimestamp() - lastTimeRan) > Constants.LOOP_TIME * 3) {
-
-            if (fieldRelative) {
-                xController.reset(measurmentSupplier.get().getX(),
-                        ChassisSpeeds.fromFieldRelativeSpeeds(speedsSupplier.get(),
-                                Rotation2d.fromDegrees(gyroSupplier.get().doubleValue())).vxMetersPerSecond);
-                MALog.log("/Subsystems/Swerve/Controllers/XY Adjust Controller/Reset X",
-                        ChassisSpeeds.fromFieldRelativeSpeeds(speedsSupplier.get(),
-                                Rotation2d.fromDegrees(gyroSupplier.get().doubleValue())));
-                yController.reset(measurmentSupplier.get().getY(),
-                        ChassisSpeeds.fromFieldRelativeSpeeds(speedsSupplier.get(),
-                                Rotation2d.fromDegrees(gyroSupplier.get().doubleValue())).vyMetersPerSecond);
-            } else {
-                xController.reset(measurmentSupplier.get().getX(),
-                        speedsSupplier.get().vxMetersPerSecond);
-                yController.reset(measurmentSupplier.get().getY(),
-                        speedsSupplier.get().vyMetersPerSecond);
-            }
-
-                   }
 
         speeds.vxMetersPerSecond = xController.calculate(measurmentSupplier.get().getX(),
                 setPointSupplier.get().getX());
@@ -97,7 +75,6 @@ public class XYAdjustController extends SwerveController {
                     Rotation2d.fromDegrees(gyroSupplier.get()));
         } // TODO: Test Field relativ in all code
 
-        lastTimeRan = Timer.getFPGATimestamp();
     }
 
     public boolean atSetpoint() {
@@ -105,7 +82,7 @@ public class XYAdjustController extends SwerveController {
     }
 
     public Pose2d getSetPoint() {
-        return new Pose2d(xController.getGoal().position, yController.getGoal().position, new Rotation2d());
+        return new Pose2d(xController.getSetpoint(), yController.getSetpoint(), new Rotation2d());
     }
 
     public void logController() {
@@ -113,10 +90,8 @@ public class XYAdjustController extends SwerveController {
 
         MALog.log("/Subsystems/Swerve/Controllers/XY Adjust Controller/X Position", measurmentSupplier.get().getX());
         MALog.log("/Subsystems/Swerve/Controllers/XY Adjust Controller/Y Position", measurmentSupplier.get().getY());
-        MALog.log("/Subsystems/Swerve/Controllers/XY Adjust Controller/X Error", xController.getPositionError());
-        MALog.log("/Subsystems/Swerve/Controllers/XY Adjust Controller/Y Error", yController.getPositionError());
-        MALog.log("/Subsystems/Swerve/Controllers/XY Adjust Controller/X Set Point", xController.getGoal().position);
-        MALog.log("/Subsystems/Swerve/Controllers/XY Adjust Controller/Y Set Point", yController.getGoal().position);
+        MALog.log("/Subsystems/Swerve/Controllers/XY Adjust Controller/X Set Point", xController.getSetpoint());
+        MALog.log("/Subsystems/Swerve/Controllers/XY Adjust Controller/Y Set Point", yController.getSetpoint());
         MALog.log("/Subsystems/Swerve/Controllers/XY Adjust Controller/X At Point", xController.atSetpoint());
         MALog.log("/Subsystems/Swerve/Controllers/XY Adjust Controller/Y At Point", yController.atSetpoint());
     }

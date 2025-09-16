@@ -1,10 +1,6 @@
 
 package com.MAutils.Swerve;
 
-import static edu.wpi.first.units.Units.KilogramSquareMeters;
-import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.Volts;
-
 import org.ironmaple.simulation.drivesims.COTS;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
 import org.ironmaple.simulation.drivesims.configs.DriveTrainSimulationConfig;
@@ -20,10 +16,11 @@ import com.MAutils.Swerve.IOs.SwerveModule.SwerveModule;
 import com.MAutils.Swerve.IOs.SwerveModule.SwerveModuleReplay;
 import com.MAutils.Swerve.IOs.SwerveModule.SwerveModuleSim;
 import com.MAutils.Swerve.IOs.SwerveModule.SwerveModuleTalonFX;
+import com.MAutils.Swerve.Utils.ModuleLimits;
 import com.MAutils.Swerve.Utils.PPHolonomicDriveController;
 import com.MAutils.Utils.Constants;
-import com.MAutils.Utils.GainConfig;
 import com.MAutils.Utils.Constants.SimulationType;
+import com.MAutils.Utils.GainConfig;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
@@ -35,6 +32,9 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
+import static edu.wpi.first.units.Units.KilogramSquareMeters;
+import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.Volts;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
 import frc.robot.Robot;
@@ -153,6 +153,9 @@ public class SwerveSystemConstants {
         public SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
                         frontLeftLocation, frontRightLocation,
                         rearLeftLocation, rearRightLocation);
+
+        public ModuleLimits DEFUALT = new ModuleLimits(MAX_VELOCITY, 26.3,
+                        Units.degreesToRadians(700));
 
         public DriveTrainSimulationConfig DRIVE_TRAIN_SIMULATION_CONFIG = DriveTrainSimulationConfig
                         .Default()

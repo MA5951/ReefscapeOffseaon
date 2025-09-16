@@ -22,7 +22,7 @@ public class FieldCentricDrive extends SwerveController {
     private double omegaScaler = 1;
 
     private Supplier<GyroData> gyroDataSupplier;
-    private double angleOffset = 0;
+    private double angleOffset = 90;
 
     public FieldCentricDrive(MAController controller, SwerveSystemConstants constants) {
         super("Field Centric Drive");

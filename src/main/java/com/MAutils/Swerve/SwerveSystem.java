@@ -3,6 +3,7 @@ package com.MAutils.Swerve;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.Supplier;
 
 import com.MAutils.Logger.MALog;
 import com.MAutils.PoseEstimation.PoseEstimator;
@@ -14,11 +15,11 @@ import com.MAutils.Swerve.IOs.Gyro.GyroIO.GyroData;
 import com.MAutils.Swerve.IOs.PhoenixOdometryThread;
 import com.MAutils.Swerve.IOs.SwerveModule.SwerveModule;
 import com.MAutils.Swerve.IOs.SwerveModule.SwerveModuleIO.SwerveModuleData;
-import com.MAutils.Swerve.Utils.DriveFeedforwards;
+import com.MAutils.Swerve.Utils.ModuleLimits;
+import com.MAutils.Swerve.Utils.SwerveSetPointGeneratorMA;
 import com.MAutils.Swerve.Utils.SwerveSetpoint;
-import com.MAutils.Swerve.Utils.SwerveSetpointGenerator;
 import com.MAutils.Swerve.Utils.SwerveState;
-import com.MAutils.Utils.DeafultRobotConstants;
+import com.MAutils.Utils.Constants;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -32,6 +33,16 @@ public class SwerveSystem extends SubsystemBase {
     private SwerveState currentState;
     private SwerveDriveEstimator swerveDriveEstimator;
 
+    private SwerveSetpoint currentSetpoint = new SwerveSetpoint(
+            new ChassisSpeeds(),
+            new SwerveModuleState[] {
+                    new SwerveModuleState(),
+                    new SwerveModuleState(),
+                    new SwerveModuleState(),
+                    new SwerveModuleState()
+            });
+    private Supplier<ModuleLimits> currentLimits;
+
     public static final Lock odometryLock = new ReentrantLock();
     private final SwerveSystemConstants swerveConstants;
     private final SwerveModule[] swerveModules;// FL FR RL RR
@@ -39,7 +50,8 @@ public class SwerveSystem extends SubsystemBase {
     private final Gyro gyro;
     private ChassisSpeeds currentSpeeds;
     private SwerveSetpoint swerveSetpoint;;
-    private final SwerveSetpointGenerator swerveSetpointGenerator;
+    // private final SwerveSetpointGenerator swerveSetpointGenerator;
+    private final SwerveSetPointGeneratorMA swerveSetPointGeneratorMA;
     private final SwerveModuleState[] currentStates = new SwerveModuleState[4];
     private final SwerveModulePosition[] currentPositions = new SwerveModulePosition[4];
 
@@ -50,8 +62,11 @@ public class SwerveSystem extends SubsystemBase {
         swerveModules = swerveConstants.getModules();
         gyro = swerveConstants.getGyro();
 
-        swerveSetpointGenerator = new SwerveSetpointGenerator(swerveConstants.getRobotConfig(),
-                swerveConstants.MAX_STEER_VELOCITY_RADS);
+        currentLimits = () -> swerveConstants.DEFUALT;
+
+        // swerveSetpointGenerator = new
+        // SwerveSetpointGenerator(swerveConstants.getRobotConfig(),
+        // swerveConstants.MAX_STEER_VELOCITY_RADS);
 
         if (!Robot.isReal()) {
             SimulationManager.registerSimulatable(new SwerveSimulation(swerveConstants));
@@ -77,7 +92,11 @@ public class SwerveSystem extends SubsystemBase {
             currentPositions[i] = swerveModules[i].getPosition();
         }
 
-        swerveSetpoint = new SwerveSetpoint(new ChassisSpeeds(0, 0, 0), currentStates, DriveFeedforwards.zeros(4));
+        // swerveSetpoint = new SwerveSetpoint(new ChassisSpeeds(0, 0, 0),
+        // currentStates, DriveFeedforwards.zeros(4));
+
+        swerveSetPointGeneratorMA = new SwerveSetPointGeneratorMA(swerveConstants.kinematics,
+                swerveConstants.modulesLocationArry);
     }
 
     public SwerveSystemConstants getSwerveConstants() {
@@ -133,13 +152,20 @@ public class SwerveSystem extends SubsystemBase {
     }
 
     public void drive(ChassisSpeeds speeds) {
-        swerveSetpoint = swerveSetpointGenerator.generateSetpoint(
-                swerveSetpoint,
-                speeds,
-                DeafultRobotConstants.kD);
 
-        MALog.logSwerveModuleStates("/Subsystems/Swerve/States/SetPoint", swerveSetpoint.moduleStates());
-        runSwerveStates(swerveSetpoint.moduleStates());
+        currentSetpoint = swerveSetPointGeneratorMA.generateSetpoint(
+                currentLimits.get(), currentSetpoint, speeds, Constants.LOOP_TIME);
+
+        // swerveSetpoint = swerveSetpointGenerator.generateSetpoint(
+        // swerveSetpoint,
+        // speeds,
+        // DeafultRobotConstants.kD);
+
+        //MALog.logSwerveModuleStates("/Subsystems/Swerve/States/SetPoint", swerveSetpoint.moduleStates());
+        //runSwerveStates(swerveSetpoint.moduleStates());
+
+        MALog.logSwerveModuleStates("/Subsystems/Swerve/States/SetPoint", currentSetpoint.moduleStates());
+        runSwerveStates(currentSetpoint.moduleStates());
     }
 
     public void runSwerveStates(SwerveModuleState[] states) {

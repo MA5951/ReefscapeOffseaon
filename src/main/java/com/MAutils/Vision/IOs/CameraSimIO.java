@@ -1,7 +1,6 @@
 
 package com.MAutils.Vision.IOs;
 
-
 import java.util.function.Supplier;
 
 import org.photonvision.EstimatedRobotPose;
@@ -13,11 +12,11 @@ import org.photonvision.simulation.VisionSystemSim;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import com.MAutils.Components.CameraTypes.Cameras;
-import com.MAutils.Simulation.SimulationManager;
 import com.MAutils.Simulation.Simulatables.VisionWorldSimulation;
-import com.MAutils.Vision.Util.VisionUtil;
+import com.MAutils.Simulation.SimulationManager;
 import com.MAutils.Vision.Util.LimelightHelpers.PoseEstimate;
 import com.MAutils.Vision.Util.LimelightHelpers.RawFiducial;
+import com.MAutils.Vision.Util.VisionUtil;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
@@ -28,7 +27,8 @@ import edu.wpi.first.math.geometry.Transform3d;
 public class CameraSimIO implements VisionCameraIO {
 
     private RawFiducial[] blankFiducial = new RawFiducial[] { new RawFiducial(0, 0, 0, 0, 0, 0, 0) };
-    private PoseEstimate blankPoseEstimate = new PoseEstimate(new Pose2d(-1 , -1, new Rotation2d()), 0, 0, 0, 0, 0, 0, blankFiducial, false);
+    private PoseEstimate blankPoseEstimate = new PoseEstimate(new Pose2d(-1, -1, new Rotation2d()), 0, 0, 0, 0, 0, 0,
+            blankFiducial, false);
     private RawFiducial[] fiducials;
     private PoseEstimate poseEstimate;
     private Transform3d robotToCamera;
@@ -39,6 +39,7 @@ public class CameraSimIO implements VisionCameraIO {
 
     public static VisionSystemSim visionSystemSim;
     private static boolean isRegisterd = false;
+    private boolean initialized = false;
     private final PhotonCamera camera;
     private final PhotonCameraSim cameraSim;
 
@@ -68,6 +69,8 @@ public class CameraSimIO implements VisionCameraIO {
             SimulationManager.registerSimulatable(new VisionWorldSimulation(robotPose));
             isRegisterd = true;
         }
+
+        
     }
 
     public void setCameraPosition(Transform3d positionRelaticToRobot) {
@@ -91,7 +94,7 @@ public class CameraSimIO implements VisionCameraIO {
     }
 
     public boolean isTag() {
-        return camera.getAllUnreadResults().get(0).hasTargets();
+        return initialized && !camera.getAllUnreadResults().isEmpty() ? camera.getAllUnreadResults().get(0).hasTargets() : false;
     }
 
     public RawFiducial getTag() {
@@ -99,21 +102,24 @@ public class CameraSimIO implements VisionCameraIO {
     }
 
     public RawFiducial[] getFiducials() {
-        if (camera.getAllUnreadResults().get(0) != null && camera.getAllUnreadResults().get(0).targets.size() > 0) {
-            fiducials = new RawFiducial[camera.getAllUnreadResults().get(0).targets.size()];
-            i = 0;
-            for (PhotonTrackedTarget tracketTrTarget : camera.getAllUnreadResults().get(0).targets) {
-                fiducials[i].txnc = tracketTrTarget.yaw;
-                fiducials[i].tync = tracketTrTarget.pitch;
-                fiducials[i].ambiguity = tracketTrTarget.poseAmbiguity;
-                fiducials[i].id = tracketTrTarget.fiducialId;
-                fiducials[i].ta = tracketTrTarget.area;
-                fiducials[i].distToCamera = VisionUtil.getDistance(robotToCamera,
-                        tagLayout.getTagPose(fiducials[i].id).get().getZ(), fiducials[i].tync);
-                fiducials[i].distToRobot = VisionUtil.getDistance(robotToCamera,
-                        tagLayout.getTagPose(fiducials[i].id).get().getZ(), fiducials[i].tync);// TODO calculate
+        if (initialized && camera.getAllUnreadResults().size() > 0) {
+            if (initialized && !camera.getAllUnreadResults().get(0).targets.isEmpty() && camera.getAllUnreadResults().get(0) != null) {
 
-                i++;
+                fiducials = new RawFiducial[camera.getAllUnreadResults().get(0).targets.size()];
+                i = 0;
+                for (PhotonTrackedTarget tracketTrTarget : camera.getAllUnreadResults().get(0).targets) {
+                    fiducials[i].txnc = tracketTrTarget.yaw;
+                    fiducials[i].tync = tracketTrTarget.pitch;
+                    fiducials[i].ambiguity = tracketTrTarget.poseAmbiguity;
+                    fiducials[i].id = tracketTrTarget.fiducialId;
+                    fiducials[i].ta = tracketTrTarget.area;
+                    fiducials[i].distToCamera = VisionUtil.getDistance(robotToCamera,
+                            tagLayout.getTagPose(fiducials[i].id).get().getZ(), fiducials[i].tync);
+                    fiducials[i].distToRobot = VisionUtil.getDistance(robotToCamera,
+                            tagLayout.getTagPose(fiducials[i].id).get().getZ(), fiducials[i].tync);// TODO calculate
+
+                    i++;
+                }
             }
         }
 
@@ -121,14 +127,14 @@ public class CameraSimIO implements VisionCameraIO {
     }
 
     public PoseEstimate getPoseEstimate(PoseEstimateType type) {
-        if (camera.getAllUnreadResults().get(0) != null) {
+        if (initialized && !camera.getAllUnreadResults().isEmpty() && camera.getAllUnreadResults().get(0) != null) {
             photonPoseEstimate = poseEstimator.update(camera.getAllUnreadResults().get(0)).get();
             poseEstimate.pose = photonPoseEstimate.estimatedPose.toPose2d();
             poseEstimate.timestampSeconds = photonPoseEstimate.timestampSeconds;
             poseEstimate.isMegaTag2 = true;
             poseEstimate.rawFiducials = getFiducials();
             poseEstimate.tagCount = getFiducials().length;
-            
+
             return poseEstimate;
         }
 
@@ -141,6 +147,9 @@ public class CameraSimIO implements VisionCameraIO {
     }
 
     public void update() {
+        if (!camera.getAllUnreadResults().isEmpty()) {
+            System.out.println(camera.getAllUnreadResults().get(0) != null);
+        }
     }
-
+ss
 }

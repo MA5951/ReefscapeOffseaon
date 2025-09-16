@@ -7,6 +7,7 @@ package frc.robot;
 import com.MAutils.RobotControl.DeafultRobotContainer;
 import com.MAutils.RobotControl.StateTrigger;
 import com.MAutils.Swerve.SwerveSystem;
+import com.MAutils.Utils.DriverStationUtil;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -14,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Commands.IntakeCommand;
 import frc.robot.Commands.SwerveTeleopController;
+import frc.robot.RobotControl.Field;
 import frc.robot.RobotControl.SuperStructure;
 import frc.robot.Subsystem.Arm.Arm;
 import frc.robot.Subsystem.Climb.Climb;
@@ -21,6 +23,7 @@ import frc.robot.Subsystem.Elevator.Elevator;
 import frc.robot.Subsystem.Intake.Intake;
 import frc.robot.Subsystem.Intake.IntakeConstants;
 import frc.robot.Subsystem.Swerve.SwerveConstants;
+import frc.robot.Subsystem.Vision.Vision;
 
 public class RobotContainer extends DeafultRobotContainer {
 
@@ -31,6 +34,9 @@ public class RobotContainer extends DeafultRobotContainer {
    public static final Climb climb = Climb.getInstance();
    
    public RobotContainer() {
+      new Field();
+      new Vision();
+      Field.setAllianceReefFaces(DriverStationUtil.getAlliance());
       configureBindings();
 
 

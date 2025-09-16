@@ -4,18 +4,17 @@ package frc.robot.Subsystem.Swerve;
 import com.MAutils.PoseEstimation.PoseEstimator;
 import com.MAutils.Swerve.Controllers.AngleAdjustController;
 import com.MAutils.Swerve.Controllers.FieldCentricDrive;
-import com.MAutils.Swerve.Controllers.XYAdjustController;
+import com.MAutils.Swerve.Controllers.XYAdjustControllerPID;
 import com.MAutils.Swerve.SwerveSystemConstants;
 import com.MAutils.Swerve.SwerveSystemConstants.GearRatio;
 import com.MAutils.Swerve.SwerveSystemConstants.WheelType;
+import com.MAutils.Swerve.Utils.PIDController;
 import com.MAutils.Swerve.Utils.SwerveState;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import frc.robot.PortMap;
 import frc.robot.RobotContainer;
+import frc.robot.RobotControl.Field;
 import frc.robot.RobotControl.SuperStructure;
 
 public class SwerveConstants {
@@ -31,14 +30,17 @@ public class SwerveConstants {
             .withTurningCurrentLimit(30, true)
             .withGearRatio(GearRatio.L2);
 
-    // PID Controllers
-    public static final PIDController ANGLE_PID_CONTROLLER = new PIDController(0.1, 0, 0);
+    // Module Constraints
 
-    public static final TrapezoidProfile.Constraints POSEXY_CONSTRAINTS = new TrapezoidProfile.Constraints(3, 3);
-    public static final ProfiledPIDController POSEXY_PID_CONTROLLER = new ProfiledPIDController(1, 0, 0,
-            POSEXY_CONSTRAINTS);
-    public static final ProfiledPIDController RELATIV_PID_CONTROLLER = new ProfiledPIDController(1, 0, 0,
-            POSEXY_CONSTRAINTS);
+    // PID Controllers
+    public static final PIDController ANGLE_PID_CONTROLLER = new PIDController(0.1, 0, 0)
+            .withContinuesInput(-180, 180);
+
+    public static final PIDController RELATIVX_PID_CONTROLLER = new PIDController(5, 0, 0).withTolerance(0.1);
+    public static final PIDController RELATIVY_PID_CONTROLLER = new PIDController(5, 0, 0).withTolerance(0.1);
+
+    public static final PIDController POSEX_PID_CONTROLLER = new PIDController(5, 0, 0).withTolerance(0.1);
+    public static final PIDController POSEY_PID_CONTROLLER = new PIDController(5, 0, 0).withTolerance(0.1);
 
     // Swerve Drive Controllers
     public static final FieldCentricDrive FIELD_CENTRIC_DRIVE = new FieldCentricDrive(
@@ -47,10 +49,10 @@ public class SwerveConstants {
     public static final AngleAdjustController ANGLE_ADJUST_CONTROLLER = new AngleAdjustController(SWERVE_CONSTANTS,
             ANGLE_PID_CONTROLLER).withSetPoint(() -> SuperStructure.getAngleAdjustSetPoint());
 
-    public static final XYAdjustController XY_ADJUST_CONTROLLER = new XYAdjustController(SWERVE_CONSTANTS,
-            POSEXY_PID_CONTROLLER,
-            POSEXY_PID_CONTROLLER, () -> PoseEstimator.getCurrentPose().getX(),
-            () -> PoseEstimator.getCurrentPose().getY());
+    public static final XYAdjustControllerPID XY_ADJUST_CONTROLLER = new XYAdjustControllerPID(SWERVE_CONSTANTS,
+            POSEX_PID_CONTROLLER,
+            POSEY_PID_CONTROLLER, () -> PoseEstimator.getCurrentPose())
+            .withXYSetPoint(() -> SuperStructure.getXYAdjustSetPoint());
 
     // Swerve States
     public static final SwerveState FIELD_CENTRIC = new SwerveState("Field Centric")
@@ -66,9 +68,13 @@ public class SwerveConstants {
             .withXY(FIELD_CENTRIC_DRIVE).withOmega(ANGLE_ADJUST_CONTROLLER);
 
     public static final SwerveState POSE_ALIGN = new SwerveState("POSE_ALIGN")
-            .withOnStateEnter(() -> XY_ADJUST_CONTROLLER.withFieldRelative(true))
-            .withSpeeds(XY_ADJUST_CONTROLLER);
-           // .withOmega(ANGLE_ADJUST_CONTROLLER);
+            .withOnStateEnter(() -> {
+                XY_ADJUST_CONTROLLER.withFieldRelative(true);
+                XY_ADJUST_CONTROLLER.withXYSetPoint(Field.getClosestReefFace(PoseEstimator.getCurrentPose()).getAlignPose());
+                ANGLE_ADJUST_CONTROLLER.withSetPoint(Field.getClosestReefFace(PoseEstimator.getCurrentPose()).AbsAngle());
+            })
+            .withSpeeds(XY_ADJUST_CONTROLLER)
+            .withOmega(ANGLE_ADJUST_CONTROLLER);
 
     public static final SwerveState RELATIV_ALIGN = new SwerveState("RELATIVE_ALIGN")
             .withOnStateEnter(() -> XY_ADJUST_CONTROLLER.withFieldRelative(false))
