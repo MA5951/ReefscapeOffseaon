@@ -3,9 +3,8 @@ package frc.robot.RobotControl;
 
 import com.MAutils.Logger.MALog;
 
-import frc.robot.RobotConstants;
-import frc.robot.RobotContainer;
-import frc.robot.RobotControl.Field.ScoringLocation;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.Subsystem.Arm.Arm;
 import frc.robot.Subsystem.Arm.ArmConstants;
 import frc.robot.Subsystem.Intake.Intake;
@@ -60,6 +59,15 @@ public class SuperStructure {
     public static void setScoringLocation(Field.ScoringLocation ScoringLocation) {
         scoringLocation = ScoringLocation;
         MALog.log("/SuperStructure/Scoring Location", ScoringLocation.name());
+    }
+
+
+    public static double getAngleAdjustSetPoint() {
+        return 180;
+    }
+
+    public static Pose2d getXYAdjustSetPoint() {
+        return new Pose2d(2,2,new Rotation2d());
     }
 
 }

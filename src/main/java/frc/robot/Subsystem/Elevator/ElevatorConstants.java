@@ -24,7 +24,7 @@ public class ElevatorConstants {
 
     public static final PositionSystemConstants ELEVATOR_CONSTANTS = PositionSystemConstants
     .newBuilder("Elevator",REEL_GAIN_CONFI, masterMotor, slaveMotor)
-    .gear(0)
+    .gear(1)
     .isBrake(true)
     .startPose(0)
     .range(0, 0)

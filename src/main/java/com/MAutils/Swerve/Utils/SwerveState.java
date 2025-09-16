@@ -10,7 +10,7 @@ public class SwerveState {
     private ChassisSpeeds stateSpeeds;
     private String stateName;
     private Supplier<ChassisSpeeds> xySupplier, omegaSupplier;
-    private Runnable onStateEnter = () -> {}, onStateRuning = () -> {}, updatRunnable = () -> {};
+    private Runnable onStateEnter = () -> {}, onStateRuning = () -> {}, updatRunnableXY = () -> {}, updatRunnableOmega = () -> {};
 
     public SwerveState(String name) {
         this.stateName = name;
@@ -36,19 +36,19 @@ public class SwerveState {
     }
 
     public SwerveState withXY(SwerveController controller) {
-        updatRunnable = controller::updateSpeeds;
+        updatRunnableXY = controller::updateControllers;
         xySupplier = () -> controller.getSpeeds();
         return this;
     }
 
     public SwerveState withOmega(SwerveController controller) {
-        updatRunnable = controller::updateSpeeds;
+        updatRunnableOmega = controller::updateControllers;
         omegaSupplier = () -> controller.getSpeeds();
         return this;
     }
 
     public SwerveState withSpeeds(SwerveController controller) {
-        updatRunnable = controller::updateSpeeds;
+        updatRunnableXY = controller::updateControllers;
         xySupplier = () -> controller.getSpeeds();
         omegaSupplier = () -> controller.getSpeeds();
         return this;
@@ -91,7 +91,8 @@ public class SwerveState {
     }
 
     public ChassisSpeeds getSpeeds() {
-        updatRunnable.run();
+        updatRunnableXY.run();
+        updatRunnableOmega.run();
         stateSpeeds = xySupplier.get();
         stateSpeeds.omegaRadiansPerSecond = omegaSupplier.get().omegaRadiansPerSecond;
         return stateSpeeds;

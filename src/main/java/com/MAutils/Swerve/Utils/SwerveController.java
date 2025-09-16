@@ -16,6 +16,11 @@ public abstract class SwerveController {
 
     public abstract void updateSpeeds();
 
+    public void updateControllers() {
+        logController();
+        updateSpeeds();
+    }
+
     public ChassisSpeeds getSpeeds() {
         return speeds;
     }

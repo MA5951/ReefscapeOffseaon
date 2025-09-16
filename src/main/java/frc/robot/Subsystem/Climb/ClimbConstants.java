@@ -21,7 +21,7 @@ public class ClimbConstants {
 
     public static final PositionSystemConstants CLIMB_CONSTANTS = PositionSystemConstants
     .newBuilder("Climb",REEL_GAIN_CONFI, masterMotor, slaveMotor)
-    .gear(0)
+    .gear(1)
     .isBrake(true)
     .startPose(0)
     .range(0, 0)

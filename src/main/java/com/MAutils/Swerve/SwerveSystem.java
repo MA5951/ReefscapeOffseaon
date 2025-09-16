@@ -5,12 +5,13 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import com.MAutils.Logger.MALog;
+import com.MAutils.PoseEstimation.PoseEstimator;
 import com.MAutils.PoseEstimation.SwerveDriveEstimator;
-import com.MAutils.Simulation.SimulationManager;
 import com.MAutils.Simulation.Simulatables.SwerveSimulation;
-import com.MAutils.Swerve.IOs.PhoenixOdometryThread;
+import com.MAutils.Simulation.SimulationManager;
 import com.MAutils.Swerve.IOs.Gyro.Gyro;
 import com.MAutils.Swerve.IOs.Gyro.GyroIO.GyroData;
+import com.MAutils.Swerve.IOs.PhoenixOdometryThread;
 import com.MAutils.Swerve.IOs.SwerveModule.SwerveModule;
 import com.MAutils.Swerve.IOs.SwerveModule.SwerveModuleIO.SwerveModuleData;
 import com.MAutils.Swerve.Utils.DriveFeedforwards;
@@ -54,6 +55,7 @@ public class SwerveSystem extends SubsystemBase {
 
         if (!Robot.isReal()) {
             SimulationManager.registerSimulatable(new SwerveSimulation(swerveConstants));
+            PoseEstimator.setSwerveSim(swerveConstants.SWERVE_DRIVE_SIMULATION);
         }
 
         swerveDriveEstimator = new SwerveDriveEstimator(swerveConstants, this);

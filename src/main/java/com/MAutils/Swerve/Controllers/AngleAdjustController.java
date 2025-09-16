@@ -4,6 +4,8 @@ package com.MAutils.Swerve.Controllers;
 import java.util.function.Supplier;
 
 import com.MAutils.Logger.MALog;
+import com.MAutils.Swerve.SwerveSystem;
+import com.MAutils.Swerve.SwerveSystemConstants;
 import com.MAutils.Swerve.Utils.SwerveController;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -14,6 +16,15 @@ public class AngleAdjustController extends SwerveController {
     private Supplier<Double> angleSupplier;
     private double angleOffset = 0;
 
+    public AngleAdjustController(SwerveSystemConstants swerveSystem, PIDController pidController) {
+        super("Angle Adjust Controller");
+        this.pidController = pidController;
+        this.angleSupplier = angleSupplier;
+
+        pidController.setSetpoint(angleOffset);
+        withGyroSupplier(() -> SwerveSystem.getInstance(swerveSystem).getGyroData().yaw);
+    }
+
     public AngleAdjustController(PIDController pidController, Supplier<Double> angleSupplier) {
         super("Angle Adjust Controller");
         this.pidController = pidController;
@@ -22,7 +33,7 @@ public class AngleAdjustController extends SwerveController {
         pidController.setSetpoint(angleOffset);
     }
 
-    public AngleAdjustController withAngleSupplier(Supplier<Double> angleSupplier) {
+    public AngleAdjustController withGyroSupplier(Supplier<Double> angleSupplier) {
         this.angleSupplier = angleSupplier;
         return this;
     }
@@ -62,7 +73,7 @@ public class AngleAdjustController extends SwerveController {
     @Override
     public void logController() {
         super.logController();
-        MALog.log("/Subsystems/Swerve/Controllers/AngleAdjustController/Set Point", pidController.getSetpoint());
-        MALog.log("/Subsystems/Swerve/Controllers/AngleAdjustController/At Point", pidController.atSetpoint());
+        MALog.log("/Subsystems/Swerve/Controllers/Angle Adjust Controller/Set Point", pidController.getSetpoint());
+        MALog.log("/Subsystems/Swerve/Controllers/Angle Adjust Controller/At Point", pidController.atSetpoint());
     }
 }

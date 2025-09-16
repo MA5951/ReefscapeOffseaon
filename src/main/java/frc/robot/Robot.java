@@ -4,6 +4,12 @@
 
 package frc.robot;
 
+import com.MAutils.CanBus.StatusSignalsRunner;
+import com.MAutils.PoseEstimation.PoseEstimator;
+import com.MAutils.Simulation.SimulationManager;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -15,24 +21,35 @@ public class Robot extends TimedRobot {
 
   public Robot() {
     m_robotContainer = new RobotContainer();
+    PoseEstimator.resetPose(new Pose2d(4, 2, new Rotation2d()));
   }
 
   @Override
   public void robotPeriodic() {
+    StatusSignalsRunner.refreshAll();
     CommandScheduler.getInstance().run();
+
+    PoseEstimator.update();
   }
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+  }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+  }
 
   @Override
-  public void disabledExit() {}
+  public void disabledExit() {
+  }
 
   @Override
   public void autonomousInit() {
+    if (!Robot.isReal()) {
+      SimulationManager.autoInit();
+    }
+
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     if (m_autonomousCommand != null) {
@@ -41,10 +58,12 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+  }
 
   @Override
-  public void autonomousExit() {}
+  public void autonomousExit() {
+  }
 
   @Override
   public void teleopInit() {
@@ -54,10 +73,12 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+  }
 
   @Override
-  public void teleopExit() {}
+  public void teleopExit() {
+  }
 
   @Override
   public void testInit() {
@@ -65,8 +86,20 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+  }
 
   @Override
-  public void testExit() {}
+  public void testExit() {
+  }
+
+  @Override
+  public void simulationInit() {
+    SimulationManager.simulationInit();
+  }
+
+  @Override
+  public void simulationPeriodic() {
+    SimulationManager.updateSimulation();
+  }
 }

@@ -5,14 +5,12 @@ import java.util.function.Supplier;
 
 import com.MAutils.Logger.MALog;
 import com.MAutils.Swerve.SwerveSystem;
+import com.MAutils.Swerve.SwerveSystemConstants;
 import com.MAutils.Swerve.Utils.SwerveController;
-import com.MAutils.Utils.ChassisSpeedsUtil;
-import com.MAutils.Utils.DriverStationUtil;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 public class XYAdjustController extends SwerveController {
 
@@ -32,13 +30,15 @@ public class XYAdjustController extends SwerveController {
         this.ySupplier = ySupplier;
     }
 
-    public XYAdjustController(SwerveSystem swerveSystem, ProfiledPIDController xController, ProfiledPIDController yController,
+    public XYAdjustController(SwerveSystemConstants swerveSystem, ProfiledPIDController xController,
+            ProfiledPIDController yController,
             Supplier<Double> xSupplier, Supplier<Double> ySupplier) {
         super("XY Adjust Controller");
         this.xController = xController;
         this.yController = yController;
         this.xSupplier = xSupplier;
         this.ySupplier = ySupplier;
+        withGyroSupplier(() -> SwerveSystem.getInstance(swerveSystem).getGyroData().yaw);
     }
 
     public XYAdjustController withGyroSupplier(Supplier<Double> gyroSupplier) {
@@ -70,16 +70,16 @@ public class XYAdjustController extends SwerveController {
     }
 
     public void updateSpeeds() {
-        speeds.vxMetersPerSecond = xController.calculate(xSupplier.get());
+        //speeds.vxMetersPerSecond = xController.calculate(xSupplier.get());
         speeds.vyMetersPerSecond = yController.calculate(ySupplier.get());
 
-        if (fieldRelative && DriverStationUtil.getAlliance() == Alliance.Blue) {
-            speeds = ChassisSpeedsUtil.FromFieldToRobot(speeds, new Rotation2d(
-                    Math.toRadians((-(gyroSupplier.get())))));
-        } else if (fieldRelative) {
-            speeds = ChassisSpeedsUtil.FromFieldToRobot(speeds, new Rotation2d(
-                    Math.toRadians((-(gyroSupplier.get()) - 180))));
-        }
+        // if (fieldRelative && DriverStationUtil.getAlliance() == Alliance.Blue) {
+        //     speeds = ChassisSpeedsUtil.FromFieldToRobot(speeds,
+        //             Rotation2d.fromDegrees(-gyroSupplier.get()));
+        // } else if (fieldRelative) {
+        //     speeds = ChassisSpeedsUtil.FromFieldToRobot(speeds,
+        //             Rotation2d.fromDegrees(-gyroSupplier.get())); // TODO: Test
+        // }
     }
 
     public boolean atSetpoint() {
@@ -93,9 +93,9 @@ public class XYAdjustController extends SwerveController {
     public void logController() {
         super.logController();
 
-        MALog.log("/Subsystems/Swerve/Controllers/XYAdjustController/X Set Point", xController.getGoal().position);
-        MALog.log("/Subsystems/Swerve/Controllers/XYAdjustController/Y Set Point", yController.getGoal().position);
-        MALog.log("/Subsystems/Swerve/Controllers/XYAdjustController/X At Point", xController.atSetpoint());
-        MALog.log("/Subsystems/Swerve/Controllers/XYAdjustController/Y At Point", yController.atSetpoint());
+        MALog.log("/Subsystems/Swerve/Controllers/XY Adjust Controller/X Set Point", xController.getGoal().position);
+        MALog.log("/Subsystems/Swerve/Controllers/XY Adjust Controller/Y Set Point", yController.getGoal().position);
+        MALog.log("/Subsystems/Swerve/Controllers/XY Adjust Controller/X At Point", xController.atSetpoint());
+        MALog.log("/Subsystems/Swerve/Controllers/XY Adjust Controller/Y At Point", yController.atSetpoint());
     }
 }

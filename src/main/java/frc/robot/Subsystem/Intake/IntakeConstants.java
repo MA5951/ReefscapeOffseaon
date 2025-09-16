@@ -15,8 +15,8 @@ public class IntakeConstants {
                         "intakeMotor", InvertedValue.Clockwise_Positive);
 
         public static final PowerSystemConstants INTAKE_CONSTANTS = PowerSystemConstants
-                        .builder("INTAKE_CONSTANTS", intakeMotor)
-                        .gear(0)
+                        .builder("Intake", intakeMotor)
+                        .gear(1)
                         .isBrake(true)
                         .build(PowerSystemConstants::new);
 

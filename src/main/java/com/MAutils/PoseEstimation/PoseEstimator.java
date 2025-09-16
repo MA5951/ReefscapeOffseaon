@@ -6,10 +6,15 @@ import java.util.Deque;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
+
+import com.MAutils.Logger.MALog;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.Robot;
 
 /**
  * PoseEstimator holds any number of PoseEstimatorSource,
@@ -21,6 +26,8 @@ public class PoseEstimator {
 
     private static final List<PoseEstimatorSource> sources = new ArrayList<>();
 
+    private static SwerveDriveSimulation swerveSim = null;
+
     // Pose and time just before our replay buffer begins
     private static Pose2d poseBeforeHistory;
     private static double historyStartTime;
@@ -31,7 +38,9 @@ public class PoseEstimator {
     private static Pose2d currentPose;
     private static double lastUpdateTime;
 
-    private static double cumDx = 0;
+    public static void setSwerveSim(SwerveDriveSimulation sim) {
+        swerveSim = sim;
+    }
 
     public static void resetPose(Pose2d newPose) {
         double now = Timer.getFPGATimestamp();
@@ -40,6 +49,10 @@ public class PoseEstimator {
         historyStartTime = now;
         currentPose = newPose;
         lastUpdateTime = now;
+
+        if(!Robot.isReal() && swerveSim != null) {
+            swerveSim.setSimulationWorldPose(newPose);
+        }
     }
 
     /** Add odometry / limelight / any other source */
@@ -65,6 +78,11 @@ public class PoseEstimator {
         lastUpdateTime = now;
         trimHistory();
 
+        MALog.log("/Pose Estimator/Current Pose", currentPose);
+        return currentPose;
+    }
+
+    public static Pose2d getCurrentPose() {
         return currentPose;
     }
 

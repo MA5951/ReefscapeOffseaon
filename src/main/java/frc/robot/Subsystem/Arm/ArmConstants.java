@@ -19,7 +19,7 @@ public class ArmConstants {
 
         public static final PositionSystemConstants ARM_CONSTANTS = PositionSystemConstants
                         .newBuilder("Arm", REEL_GAIN_CONFI, Arm_Motor)
-                        .gear(0)
+                        .gear(1)
                         .isBrake(true)
                         .startPose(0)
                         .range(0, 0)

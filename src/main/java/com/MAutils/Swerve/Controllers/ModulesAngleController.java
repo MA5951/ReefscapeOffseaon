@@ -13,7 +13,7 @@ public class ModulesAngleController extends SwerveController {
     private SwerveModuleState[] swerveStates;
 
     public ModulesAngleController(SwerveSystem swerveSystem) {
-        super("ModulesAngleController");
+        super("Modules Angle Controller");
         this.swerveSystem = swerveSystem;
         this.swerveStates = new SwerveModuleState[4];
 
