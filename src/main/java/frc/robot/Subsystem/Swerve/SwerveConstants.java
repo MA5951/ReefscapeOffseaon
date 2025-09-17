@@ -24,7 +24,7 @@ public class SwerveConstants {
             .withPyshicalParameters(0.6, 0.6, 52, WheelType.BLACK_TREAD, 6.25)
             .withMotors(DCMotor.getKrakenX60(1), DCMotor.getFalcon500(1), PortMap.SwervePorts.SWERVE_MODULE_IDS,
                     PortMap.SwervePorts.PIGEON2)
-            .withMaxVelocityMaxAcceleration(4.92, 10)
+            .withMaxVelocityMaxAcceleration(5.5, 10)
             .withOdometryUpdateRate(250)
             .withDriveCurrentLimit(80, true)// 45
             .withTurningCurrentLimit(30, true)
@@ -51,29 +51,29 @@ public class SwerveConstants {
 
     public static final XYAdjustControllerPID XY_ADJUST_CONTROLLER = new XYAdjustControllerPID(SWERVE_CONSTANTS,
             POSEX_PID_CONTROLLER,
-            POSEY_PID_CONTROLLER, () -> PoseEstimator.getCurrentPose())
+            POSEY_PID_CONTROLLER, () -> SwerveConstants.SWERVE_CONSTANTS.SWERVE_DRIVE_SIMULATION.getSimulatedDriveTrainPose())
             .withXYSetPoint(() -> SuperStructure.getXYAdjustSetPoint());
 
-    // Swerve States
+    // Swerve States\
     public static final SwerveState FIELD_CENTRIC = new SwerveState("Field Centric")
             .withOnStateEnter(() -> FIELD_CENTRIC_DRIVE.withSclers(1, 0.7))
             .withSpeeds(FIELD_CENTRIC_DRIVE);
 
     public static final SwerveState FIELD_CENTRIC_40 = new SwerveState("Field Centric 40 Precent")
-            .withOnStateEnter(() -> FIELD_CENTRIC_DRIVE.withSclers(0.4, 0.7))
+            .withOnStateEnter(() -> FIELD_CENTRIC_DRIVE.withSclers(0.4, 0.3))
             .withSpeeds(FIELD_CENTRIC_DRIVE);
 
     public static final SwerveState FIELD_CENTRIC_40_ANGLE = new SwerveState("Field Centric 40 Angle")
-            .withOnStateEnter(() -> FIELD_CENTRIC_DRIVE.withSclers(0.4, 0.7))
+            .withOnStateEnter(() -> FIELD_CENTRIC_DRIVE.withSclers(0.4, 0.3))
             .withXY(FIELD_CENTRIC_DRIVE).withOmega(ANGLE_ADJUST_CONTROLLER);
 
     public static final SwerveState POSE_ALIGN = new SwerveState("POSE_ALIGN")
             .withOnStateEnter(() -> {
                 XY_ADJUST_CONTROLLER.withFieldRelative(true);
-                XY_ADJUST_CONTROLLER.withXYSetPoint(Field.getClosestReefFace(PoseEstimator.getCurrentPose()).getAlignPose());
-                ANGLE_ADJUST_CONTROLLER.withSetPoint(Field.getClosestReefFace(PoseEstimator.getCurrentPose()).AbsAngle());
+                XY_ADJUST_CONTROLLER.withXYSetPoint(Field.getBestMatchingReefFace(SwerveConstants.SWERVE_CONSTANTS.SWERVE_DRIVE_SIMULATION.getSimulatedDriveTrainPose()).getAlignPose());
+                ANGLE_ADJUST_CONTROLLER.withSetPoint(Field.getBestMatchingReefFace(SwerveConstants.SWERVE_CONSTANTS.SWERVE_DRIVE_SIMULATION.getSimulatedDriveTrainPose()).AbsAngle());
             })
-            .withSpeeds(XY_ADJUST_CONTROLLER)
+            .withXY(XY_ADJUST_CONTROLLER)
             .withOmega(ANGLE_ADJUST_CONTROLLER);
 
     public static final SwerveState RELATIV_ALIGN = new SwerveState("RELATIVE_ALIGN")

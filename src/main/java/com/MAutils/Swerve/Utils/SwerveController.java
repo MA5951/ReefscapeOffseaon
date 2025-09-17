@@ -8,7 +8,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 public abstract class SwerveController {
 
     private String name;
-    protected ChassisSpeeds speeds = new ChassisSpeeds(0,0,0);
+    protected ChassisSpeeds speeds = new ChassisSpeeds(0, 0, 0);
 
     public SwerveController(String name) {
         this.name = name;
@@ -17,8 +17,9 @@ public abstract class SwerveController {
     public abstract void updateSpeeds();
 
     public void updateControllers() {
-        logController();
+
         updateSpeeds();
+        logController();
     }
 
     public ChassisSpeeds getSpeeds() {
@@ -26,7 +27,7 @@ public abstract class SwerveController {
     }
 
     public void logController() {
-        MALog.log("/Subsystems/Swerve/Controllers/"+ name +"/Speeds", speeds);
+        MALog.log("/Subsystems/Swerve/Controllers/" + name + "/Speeds", speeds);
     }
 
     public String getName() {

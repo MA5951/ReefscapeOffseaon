@@ -17,7 +17,7 @@ public class SwerveTeleopController extends SwerveSystemController{
 
     public void SetSwerveState() {
 
-        if (RobotContainer.getDriverController().getL2()) {
+        if (RobotContainer.getDriverController().getL2() || RobotContainer.getDriverController().getR2()) {
             setState(SwerveConstants.POSE_ALIGN);
         } else {
             setState(SwerveConstants.FIELD_CENTRIC);
