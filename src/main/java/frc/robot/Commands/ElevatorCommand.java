@@ -18,7 +18,7 @@ public class ElevatorCommand extends SubsystemCommand {
     public void Automatic() {
         switch (elveator.getCurrentState().stateName) {
             case "IDLE":
-                elveator.setPosition(ElevatorConstants.IDLE_HEIGHT);
+                elveator.setPosition(0);
                 break;
             case "INTAKE":
                 elveator.setPosition(ElevatorConstants.INTAKE_HEIGHT);

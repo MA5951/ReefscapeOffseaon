@@ -2,14 +2,26 @@ package frc.robot.Subsystem.Intake;
 
 import com.MAutils.Subsystems.DeafultSubsystems.Systems.PowerControlledSystem;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Commands.SwerveTeleopController;
+import frc.robot.PortMap;
+import frc.robot.RobotConstants;
+import frc.robot.RobotContainer;
+import frc.robot.RobotControl.SuperStructure;
 
 public class Intake extends PowerControlledSystem {
 
-    private static Intake intake;
+    private static Intake intake = null;
+    private final DigitalInput frontSensor;
+    private final DigitalInput rearSensor;
 
     private Intake() {
         super(IntakeConstants.INTAKE_CONSTANTS);
+        System.out.println("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
+
+        frontSensor = new DigitalInput(PortMap.IntakePorts.FRONT_SENSOR);
+        rearSensor = new DigitalInput(PortMap.IntakePorts.REAR_SENSOR);
     }
 
     @Override
@@ -19,15 +31,25 @@ public class Intake extends PowerControlledSystem {
 
     @Override
     public boolean CAN_MOVE() {
-        return true;
+        return (RobotContainer.getRobotState() == RobotConstants.INTAKE && !SuperStructure.isGamePiece()) 
+                || (RobotContainer.getRobotState() == RobotConstants.CORAL_HOLD && SuperStructure.isCoral())
+                || (RobotContainer.getRobotState() == RobotConstants.SCORING && SuperStructure.isGamePiece()
+                        && RobotContainer.elevator.atPoint() && RobotContainer.arm.atPoint()
+                        && SwerveTeleopController.atPointForScoring())
+                || (RobotContainer.getRobotState() == RobotConstants.EJECT && SuperStructure.isGamePiece())
+                || (RobotContainer.getRobotState() == RobotConstants.BALL_INTAKE)
+                || (RobotContainer.getRobotState() == RobotConstants.BALL_HOLDING)
+                || (RobotContainer.getRobotState() == RobotConstants.BALL_PRESCORING)
+                || (RobotContainer.getRobotState() == RobotConstants.BALL_SCORING)
+                || (RobotContainer.getRobotState() == RobotConstants.SORTING && getFrontSensor());
     }
 
     public boolean getRearSensor() {
-        return false;
+        return !rearSensor.get();
     }
 
     public boolean getFrontSensor() {
-        return false;
+        return !frontSensor.get();
     }
 
     public double getBallSensor() {

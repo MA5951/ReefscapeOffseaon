@@ -16,14 +16,17 @@ public class ArmConstants {
                         "Arm_Motor", InvertedValue.Clockwise_Positive);
 
         private static final GainConfig REEL_GAIN_CONFI = new GainConfig().withKP(1);
+        private static final GainConfig SIM_GAIN_CONFI = new GainConfig().withKP(100);
 
         public static final PositionSystemConstants ARM_CONSTANTS = PositionSystemConstants
                         .newBuilder("Arm", REEL_GAIN_CONFI, Arm_Motor)
-                        .gear(1)
+                        .simGains(SIM_GAIN_CONFI)
+                        .gear(82)
                         .isBrake(true)
                         .startPose(0)
-                        .range(0, 0)
-                        .tolerance(0)
+                        .range(0, 150)
+                        .tolerance(1)
+                        .positionFactor(1)
                         .build();
 
                         
@@ -38,21 +41,19 @@ public class ArmConstants {
 
         // lerner
         public static final double IDLE_ANGLE = 0;
-        public static final double INTAKE_ANGLE = 0;
-        public static final double CORAL_HOLDING_ANGLE = 0;
-        public static final double CORAL_EJECT_ANGLE = 0;
-        public static final double BALL_INTAKE_ANGLE = 0;
-        public static final double BALL_HOLDING_ANGLE = 0;
-        public static final double BALL_PRESCORING_ANGLE = 0;
-        public static final double BALL_SCORING_ANGLE = 0;
-        public static final double FLIPPED_ANGLE = 0;
-        public static final double KP = 0;
-        public static final double KI = 0;
-        public static final double KD = 0;
+        public static final double INTAKE_ANGLE = 26;
+        public static final double CORAL_HOLDING_ANGLE = 145;
+        public static final double BALL_INTAKE_ANGLE = 125;
+        public static final double BALL_HOLDING_ANGLE = 130;
+        public static final double BALL_PRESCORING_ANGLE = 130;
+        public static final double BALL_SCORING_ANGLE = 0145;
+        public static final double FLIPPED_ANGLE = 90;
 
-        public static final double ANGLE_L1 = 0;
-        public static final double ANGLE_L2 = 0;
-        public static final double ANGLE_L3 = 0;
-        public static final double ANGLE_L4 = 0;
+        public static final double ANGLE_L1 = 24;
+        public static final double ANGLE_L2 = 154;
+        public static final double ANGLE_L3 = 140;
+        public static final double ANGLE_L4 = 127;
+
+        public static final double CANCODER_RATIO = 3.4;
 
 }

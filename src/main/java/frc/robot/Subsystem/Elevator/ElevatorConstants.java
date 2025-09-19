@@ -21,14 +21,21 @@ public class ElevatorConstants {
      MotorType.KRAKEN, "slaveMotor", InvertedValue.Clockwise_Positive);
 
     private static final GainConfig REEL_GAIN_CONFI = new GainConfig().withKP(1);
+    private static final GainConfig SIM_GAIN_CONFI = new GainConfig().withKP(5);
+
+    public static final double SPROKET_PITCH_DIAMETER = 0.0444754;
+    public static final double SPROKET_CIRCUMFERENCE = SPROKET_PITCH_DIAMETER * Math.PI;
 
     public static final PositionSystemConstants ELEVATOR_CONSTANTS = PositionSystemConstants
     .newBuilder("Elevator",REEL_GAIN_CONFI, masterMotor, slaveMotor)
-    .gear(1)
+    .simGains(SIM_GAIN_CONFI)
+    .gear(82d / 12d)
     .isBrake(true)
     .startPose(0)
-    .range(0, 0)
-    .tolerance(0)
+    .range(0, 1.5)
+    .tolerance(0.02)
+    .positionFactor(0.00116436)
+    .motionMagic((14 / SPROKET_CIRCUMFERENCE )*1.7, (30 / SPROKET_CIRCUMFERENCE) * 2.3, 0)
     .build();
     
 

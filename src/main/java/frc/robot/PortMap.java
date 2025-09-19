@@ -26,8 +26,8 @@ public class PortMap {
         public static final CANBusID INTAKE_MOTOR = new CANBusID(15, CANBUS.RIO_BUS);
         
 
-        public static final int FRONT_SENSOR = 1;
-        public static final int REAR_SENSOR = 2;
+        public static final int FRONT_SENSOR = 7;
+        public static final int REAR_SENSOR = 8;
     }
 
     public static class ClimbPorts {

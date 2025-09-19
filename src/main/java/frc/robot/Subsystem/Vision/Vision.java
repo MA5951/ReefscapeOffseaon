@@ -6,8 +6,8 @@ import com.MAutils.Vision.VisionSystem;
 public class Vision {
 
     public Vision() {
-        // VisionSystem.getInstance()
-        // .setCameras(VisionConstants.frontLeftLimelight);
+        VisionSystem.getInstance()
+        .setCameras(VisionConstants.frontLeftLimelight, VisionConstants.fronRightLimelight);
     }
 
 

@@ -19,7 +19,7 @@ public class ArmCommand extends SubsystemCommand {
     public void Automatic() {
         switch (arm.getCurrentState().stateName) {
             case "IDLE":
-                arm.setPosition(ArmConstants.IDLE_ANGLE);
+                arm.setPosition(5);
                 break;
             case "INTAKE":
                 arm.setPosition(ArmConstants.INTAKE_ANGLE);

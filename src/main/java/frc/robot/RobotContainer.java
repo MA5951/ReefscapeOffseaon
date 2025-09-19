@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.Commands.ArmCommand;
+import frc.robot.Commands.ElevatorCommand;
 import frc.robot.Commands.IntakeCommand;
 import frc.robot.Commands.SwerveTeleopController;
 import frc.robot.RobotControl.Field;
@@ -42,6 +44,9 @@ public class RobotContainer extends DeafultRobotContainer {
 
 
       CommandScheduler.getInstance().setDefaultCommand(swerve, new SwerveTeleopController());
+      CommandScheduler.getInstance().setDefaultCommand(elevator, new ElevatorCommand());
+      CommandScheduler.getInstance().setDefaultCommand(arm, new ArmCommand());
+      CommandScheduler.getInstance().setDefaultCommand(intake, new IntakeCommand());
       
    }
 

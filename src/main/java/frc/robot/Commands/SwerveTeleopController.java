@@ -24,4 +24,8 @@ public class SwerveTeleopController extends SwerveSystemController{
         }
         
     }
+
+    public static boolean atPointForScoring() {
+        return true;
+    }
 }

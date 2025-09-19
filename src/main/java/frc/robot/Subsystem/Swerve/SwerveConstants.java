@@ -39,8 +39,8 @@ public class SwerveConstants {
     public static final PIDController RELATIVX_PID_CONTROLLER = new PIDController(5, 0, 0).withTolerance(0.1);
     public static final PIDController RELATIVY_PID_CONTROLLER = new PIDController(5, 0, 0).withTolerance(0.1);
 
-    public static final PIDController POSEX_PID_CONTROLLER = new PIDController(5, 0, 0).withTolerance(0.1);
-    public static final PIDController POSEY_PID_CONTROLLER = new PIDController(5, 0, 0).withTolerance(0.1);
+    public static final PIDController POSEX_PID_CONTROLLER = new PIDController(4, 0, 0).withTolerance(0.1);
+    public static final PIDController POSEY_PID_CONTROLLER = new PIDController(4, 0, 0).withTolerance(0.1);
 
     // Swerve Drive Controllers
     public static final FieldCentricDrive FIELD_CENTRIC_DRIVE = new FieldCentricDrive(
@@ -51,7 +51,7 @@ public class SwerveConstants {
 
     public static final XYAdjustControllerPID XY_ADJUST_CONTROLLER = new XYAdjustControllerPID(SWERVE_CONSTANTS,
             POSEX_PID_CONTROLLER,
-            POSEY_PID_CONTROLLER, () -> SwerveConstants.SWERVE_CONSTANTS.SWERVE_DRIVE_SIMULATION.getSimulatedDriveTrainPose())
+            POSEY_PID_CONTROLLER, () -> PoseEstimator.getCurrentPose())
             .withXYSetPoint(() -> SuperStructure.getXYAdjustSetPoint());
 
     // Swerve States\
@@ -70,8 +70,8 @@ public class SwerveConstants {
     public static final SwerveState POSE_ALIGN = new SwerveState("POSE_ALIGN")
             .withOnStateEnter(() -> {
                 XY_ADJUST_CONTROLLER.withFieldRelative(true);
-                XY_ADJUST_CONTROLLER.withXYSetPoint(Field.getBestMatchingReefFace(SwerveConstants.SWERVE_CONSTANTS.SWERVE_DRIVE_SIMULATION.getSimulatedDriveTrainPose()).getAlignPose());
-                ANGLE_ADJUST_CONTROLLER.withSetPoint(Field.getBestMatchingReefFace(SwerveConstants.SWERVE_CONSTANTS.SWERVE_DRIVE_SIMULATION.getSimulatedDriveTrainPose()).AbsAngle());
+                XY_ADJUST_CONTROLLER.withXYSetPoint(Field.getBestMatchingReefFace(PoseEstimator.getCurrentPose()).getAlignPose());
+                ANGLE_ADJUST_CONTROLLER.withSetPoint(Field.getBestMatchingReefFace(PoseEstimator.getCurrentPose()).AbsAngle());
             })
             .withXY(XY_ADJUST_CONTROLLER)
             .withOmega(ANGLE_ADJUST_CONTROLLER);

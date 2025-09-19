@@ -28,7 +28,7 @@ public class CameraTypes {
         public SimCameraProperties getSimulationProp() {
             return new SimCameraProperties().setCalibration(width, height, Rotation2d.fromDegrees(fov))
                     .setCalibError(0.25, 0.08)
-                    .setFPS(40)
+                    .setFPS(55)
                     .setAvgLatencyMs(35)
                     .setLatencyStdDevMs(5);
         }

@@ -21,7 +21,7 @@ public class IntakeCommand extends SubsystemCommand {
     public void Automatic() {
         switch (intake.getCurrentState().stateName) {
             case "IDLE":
-                intake.setVoltage(IntakeConstants.IDLE_VOLTS);
+                intake.setVoltage(5);
                 break;
             case "CORAL_INTAKE":
                 intake.setVoltage(IntakeConstants.CORAL_INTAKE_VOLTS);

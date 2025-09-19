@@ -1,4 +1,3 @@
-
 package com.MAutils.Vision.IOs;
 
 import java.util.function.Supplier;
@@ -9,6 +8,7 @@ import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.simulation.PhotonCameraSim;
 import org.photonvision.simulation.VisionSystemSim;
+import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import com.MAutils.Components.CameraTypes.Cameras;
@@ -23,45 +23,72 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.wpilibj.Timer;
 
 public class CameraSimIO implements VisionCameraIO {
 
-    private RawFiducial[] blankFiducial = new RawFiducial[] { new RawFiducial(0, 0, 0, 0, 0, 0, 0) };
-    private PoseEstimate blankPoseEstimate = new PoseEstimate(new Pose2d(-1, -1, new Rotation2d()), 0, 0, 0, 0, 0, 0,
-            blankFiducial, false);
+    // --- Constants / tuning ---
+    private static final double STALE_SEC = 0.20; // consider frame stale after 200 ms
+
+    // --- Blank fallbacks ---
+    private final RawFiducial[] blankFiducial =
+        new RawFiducial[]{ new RawFiducial(0, 0, 0, 0, 0, 0, 0) };
+
+    private final PoseEstimate blankPoseEstimate =
+        new PoseEstimate(new Pose2d(-1, -1, new Rotation2d()), 0, 0, 0, 0, 0, 0,
+                         blankFiducial, false);
+
+    // --- State ---
     private RawFiducial[] fiducials;
     private PoseEstimate poseEstimate;
-    private Transform3d robotToCamera;
+    private PoseEstimate lastReturn = blankPoseEstimate ;
+
+    private final Transform3d robotToCamera;
     private AprilTagFieldLayout tagLayout;
-    private PhotonPoseEstimator poseEstimator;
+    private final PhotonPoseEstimator poseEstimator;
     private EstimatedRobotPose photonPoseEstimate;
-    private int i = 0;
+
+    public final Supplier<Pose2d> robotPose;
 
     public static VisionSystemSim visionSystemSim;
     private static boolean isRegisterd = false;
-    private boolean initialized = false;
+
     private final PhotonCamera camera;
     private final PhotonCameraSim cameraSim;
 
-    public CameraSimIO(String name, Cameras cameraProps, Transform3d robotToCamera, Supplier<Pose2d> robotPose) {
+    // Cached most-recent result (do NOT read queue elsewhere)
+    private PhotonPipelineResult lastResult;
+    private double lastResultTs = -1.0; // seconds (FPGA clock), for staleness
+
+    public CameraSimIO(String name,
+                       Cameras cameraProps,
+                       Transform3d robotToCamera,
+                       Supplier<Pose2d> robotPose) {
         this.robotToCamera = robotToCamera;
+        this.robotPose = robotPose;
+
         visionSystemSim = new VisionSystemSim("Main Vision Sim");
 
         try {
-            tagLayout = AprilTagFieldLayout
-                    .loadFromResource(AprilTagFields.k2025ReefscapeAndyMark.m_resourceFile);// TODO Cheack
-
+            tagLayout = AprilTagFieldLayout.loadFromResource(
+                AprilTagFields.k2025ReefscapeAndyMark.m_resourceFile
+            );
             visionSystemSim.addAprilTags(tagLayout);
         } catch (Exception e) {
+            // Fail fast so you actually see the root cause
+            throw new RuntimeException("Failed to load AprilTag field layout", e);
         }
 
         camera = new PhotonCamera(name);
         cameraSim = new PhotonCameraSim(camera, cameraProps.getSimulationProp());
 
-        poseEstimator = new PhotonPoseEstimator(tagLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, robotToCamera);
+        poseEstimator = new PhotonPoseEstimator(
+            tagLayout,
+            PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
+            robotToCamera
+        );
 
         visionSystemSim.addCamera(cameraSim, robotToCamera);
-
         cameraSim.enableProcessedStream(true);
         cameraSim.enableDrawWireframe(true);
 
@@ -69,87 +96,120 @@ public class CameraSimIO implements VisionCameraIO {
             SimulationManager.registerSimulatable(new VisionWorldSimulation(robotPose));
             isRegisterd = true;
         }
-
-        
     }
 
     public void setCameraPosition(Transform3d positionRelaticToRobot) {
         visionSystemSim.adjustCamera(cameraSim, positionRelaticToRobot);
     }
 
-    public void setPipline(int pipeline) {
-    }
-
-    public void setCrop(double cropXMin, double cropXMax, double cropYMin, double cropYMax) {
-    }
-
-    public void allowTags(int[] tags) {
-    }
-
-    public void takeSnapshot() {
-    }
-
-    public int getPipline() {
-        return 0;
-    }
-
-    public boolean isTag() {
-        return initialized && !camera.getAllUnreadResults().isEmpty() ? camera.getAllUnreadResults().get(0).hasTargets() : false;
-    }
-
-    public RawFiducial getTag() {
-        return getFiducials()[0];
-    }
-
-    public RawFiducial[] getFiducials() {
-        if (initialized && camera.getAllUnreadResults().size() > 0) {
-            if (initialized && !camera.getAllUnreadResults().get(0).targets.isEmpty() && camera.getAllUnreadResults().get(0) != null) {
-
-                fiducials = new RawFiducial[camera.getAllUnreadResults().get(0).targets.size()];
-                i = 0;
-                for (PhotonTrackedTarget tracketTrTarget : camera.getAllUnreadResults().get(0).targets) {
-                    fiducials[i].txnc = tracketTrTarget.yaw;
-                    fiducials[i].tync = tracketTrTarget.pitch;
-                    fiducials[i].ambiguity = tracketTrTarget.poseAmbiguity;
-                    fiducials[i].id = tracketTrTarget.fiducialId;
-                    fiducials[i].ta = tracketTrTarget.area;
-                    fiducials[i].distToCamera = VisionUtil.getDistance(robotToCamera,
-                            tagLayout.getTagPose(fiducials[i].id).get().getZ(), fiducials[i].tync);
-                    fiducials[i].distToRobot = VisionUtil.getDistance(robotToCamera,
-                            tagLayout.getTagPose(fiducials[i].id).get().getZ(), fiducials[i].tync);// TODO calculate
-
-                    i++;
-                }
-            }
-        }
-
-        return blankFiducial;
-    }
-
-    public PoseEstimate getPoseEstimate(PoseEstimateType type) {
-        if (initialized && !camera.getAllUnreadResults().isEmpty() && camera.getAllUnreadResults().get(0) != null) {
-            photonPoseEstimate = poseEstimator.update(camera.getAllUnreadResults().get(0)).get();
-            poseEstimate.pose = photonPoseEstimate.estimatedPose.toPose2d();
-            poseEstimate.timestampSeconds = photonPoseEstimate.timestampSeconds;
-            poseEstimate.isMegaTag2 = true;
-            poseEstimate.rawFiducials = getFiducials();
-            poseEstimate.tagCount = getFiducials().length;
-
-            return poseEstimate;
-        }
-
-        return blankPoseEstimate;
-    }
+    public void setPipline(int pipeline) {}
+    public void setCrop(double cropXMin, double cropXMax, double cropYMin, double cropYMax) {}
+    public void allowTags(int[] tags) {}
+    public void takeSnapshot() {}
+    public int getPipline() { return 0; }
 
     @Override
     public String getName() {
         return camera.getName();
     }
 
+    /** Call once per robot loop. */
     public void update() {
-        if (!camera.getAllUnreadResults().isEmpty()) {
-            System.out.println(camera.getAllUnreadResults().get(0) != null);
-        }
+        // 1) Step the vision sim with the current robot pose
+        visionSystemSim.update(robotPose.get());
+
+        // 2) Consume unread queue EXACTLY ONCE per loop
+        var unread = camera.getAllUnreadResults(); // this clears the FIFO
+        if (unread != null && !unread.isEmpty()) {
+            lastResult = unread.get(unread.size() - 1); // newest
+            // prefer the result's own timestamp; fall back to FPGA time if not exposed
+            try {
+                lastResultTs = lastResult.getTimestampSeconds();
+            } catch (Throwable t) {
+                lastResultTs = Timer.getFPGATimestamp();
+            }
+        } // else keep prior lastResult (don’t null it)
+
+        // 3) Optional debug
+        double age = (lastResultTs > 0) ? (Timer.getFPGATimestamp() - lastResultTs) : Double.POSITIVE_INFINITY;
     }
 
+    /** Whether we currently have a (possibly cached) frame with targets and it's not stale. */
+    public boolean isTag() {
+        if (lastResult == null || !lastResult.hasTargets()) return false;
+        double age = (lastResultTs > 0) ? (Timer.getFPGATimestamp() - lastResultTs) : Double.POSITIVE_INFINITY;
+        return age <= STALE_SEC;
+    }
+
+    public RawFiducial getTag() {
+        var fids = getFiducials();
+        return fids.length > 0 ? fids[0] : blankFiducial[0];
+    }
+
+    public RawFiducial[] getFiducials() {
+        if (lastResult == null || !lastResult.hasTargets()) return blankFiducial;
+
+        var targets = lastResult.getTargets();
+        if (targets == null || targets.isEmpty()) return blankFiducial;
+
+        fiducials = new RawFiducial[targets.size()];
+        for (int i = 0; i < targets.size(); i++) {
+            PhotonTrackedTarget t = targets.get(i);
+
+            double distCam = 0.0, distRobot = 0.0;
+            var tagPoseOpt = tagLayout.getTagPose(t.getFiducialId());
+            if (tagPoseOpt.isPresent()) {
+                double tagZ = tagPoseOpt.get().getZ();
+                distCam = VisionUtil.getDistance(robotToCamera, tagZ, t.getPitch());
+                distRobot = distCam; // TODO: convert to robot-origin distance if you need that
+            }
+
+            // Construct the element (avoid NPEs)
+            fiducials[i] = new RawFiducial(
+                t.getFiducialId(),
+                t.getYaw(),
+                t.getPitch(),
+                t.getArea(),
+                t.getPoseAmbiguity(),
+                distCam,
+                distRobot
+            );
+        }
+        return fiducials.length > 0 ? fiducials : blankFiducial;
+    }
+
+    public PoseEstimate getPoseEstimate(PoseEstimateType type) {
+        // Use cached frame; don’t touch the FIFO here
+        if (lastResult == null) return blankPoseEstimate;
+
+        if (Math.abs(lastReturn.timestampSeconds - lastResult.getTimestampSeconds()) < 1e-6) {
+            return lastReturn; // already computed for this frame
+        }
+        
+
+        var opt = poseEstimator.update(lastResult); // Optional<EstimatedRobotPose>
+        //if (opt.isEmpty()) return blankPoseEstimate;
+
+        
+
+        if (opt.isEmpty()) {
+            return blankPoseEstimate;
+        }
+
+        photonPoseEstimate = opt.get();
+
+        if (poseEstimate == null) {
+            poseEstimate = new PoseEstimate(new Pose2d(), 0, 0, 0, 0, 0, 0, blankFiducial, false);
+        }
+
+        
+        poseEstimate.pose = photonPoseEstimate.estimatedPose.toPose2d();
+        poseEstimate.timestampSeconds = photonPoseEstimate.timestampSeconds;
+        poseEstimate.isMegaTag2 = type == PoseEstimateType.MT2;
+        poseEstimate.rawFiducials = getFiducials();
+        poseEstimate.tagCount = poseEstimate.rawFiducials.length;
+        lastReturn = poseEstimate;
+
+        return poseEstimate;
+    }
 }
