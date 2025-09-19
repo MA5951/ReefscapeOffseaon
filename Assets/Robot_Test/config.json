@@ -1,0 +1,81 @@
+{
+  "name": "RooBoo",
+"isFTC": false,
+  "rotations": [{
+      "axis": "x",
+      "degrees": 90
+    },
+    {
+      "axis": "z",
+      "degrees": -90
+    },
+    {
+      "axis": "y",
+      "degrees": 0
+    }],
+  "position": [0.35, 0, 0],
+  "cameras": [],
+  "components": [{
+      "zeroedRotations": [
+        {
+          "axis": "x",
+          "degrees": 90
+        },
+{
+          "axis": "y",
+          "degrees": 0
+        },
+        {
+          "axis": "z",
+          "degrees": 90
+        }
+      ],
+      "zeroedPosition": [
+        -0.16,
+        0,
+        0
+      ]
+    },
+{
+      "zeroedRotations": [
+        {
+          "axis": "x",
+          "degrees": 90
+        },
+{
+          "axis": "y",
+          "degrees": 0
+        },
+        {
+          "axis": "z",
+          "degrees": -90
+        }
+      ],
+      "zeroedPosition": [
+        0.35,
+        0,
+        0
+      ]
+    },
+{
+      "zeroedRotations": [
+        {
+          "axis": "x",
+          "degrees": -53
+        },
+{
+          "axis": "y",
+          "degrees": 0
+        },
+        {
+          "axis": "z",
+          "degrees": -90
+        }
+      ],
+      "zeroedPosition": [
+        -0.33,
+        0,
+        0.34
+      ]
+    }] 
+}

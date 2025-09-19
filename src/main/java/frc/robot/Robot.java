@@ -5,11 +5,15 @@
 package frc.robot;
 
 import com.MAutils.CanBus.StatusSignalsRunner;
+import com.MAutils.Logger.MALog;
 import com.MAutils.PoseEstimation.PoseEstimator;
 import com.MAutils.Simulation.SimulationManager;
+import com.MAutils.Utils.ConvUtil;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -18,10 +22,16 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private final RobotContainer m_robotContainer;
+  private double  i = 0;
 
   public Robot() {
     m_robotContainer = new RobotContainer();
     PoseEstimator.resetPose(new Pose2d(2, 2, new Rotation2d()));
+
+    MALog.log("/Simulation/Robot/Elevator 1", new Pose3d(0, 0, i, new Rotation3d()));
+    MALog.log("/Simulation/Robot/Gripper", new Pose3d(0, 0, i * 2, new Rotation3d()));
+    MALog.log("/Simulation/Robot/Gripper Arm", new Pose3d(0, 0, i * 2, new Rotation3d(0,-i*100,0)));
+
   }
 
   @Override
@@ -30,6 +40,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
 
     PoseEstimator.update();
+
   }
 
   @Override
@@ -74,6 +85,16 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+    i += 0.015;
+
+    if (i > 0.75) {
+      i = 0.75;
+    }
+
+    MALog.log("/Simulation/Robot/Elevator 1", new Pose3d(0, 0, i, new Rotation3d()));
+    MALog.log("/Simulation/Robot/Gripper", new Pose3d(0, 0, i * 2, new Rotation3d()));
+    MALog.log("/Simulation/Robot/Gripper Arm", new Pose3d(0.3, 0, i * 2 + 0.47, new Rotation3d(0,ConvUtil.DegreesToRadians(-i*100 * 1.5),0)));
+
   }
 
   @Override
