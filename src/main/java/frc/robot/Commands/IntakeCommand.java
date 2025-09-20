@@ -3,17 +3,18 @@ package frc.robot.Commands;
 
 import com.MAutils.RobotControl.SubsystemCommand;
 
+import frc.robot.RobotContainer;
 import frc.robot.RobotControl.SuperStructure;
 import frc.robot.Subsystem.Intake.Intake;
 import frc.robot.Subsystem.Intake.IntakeConstants;
 
 public class IntakeCommand extends SubsystemCommand {
-    private static final Intake intake = Intake.getInstance();
+    private static final Intake intake = RobotContainer.intake;
     private boolean cycle = false;
     public static int sortingCount = 0;// TODO: rename
 
     public IntakeCommand() {
-        super(Intake.getInstance());
+        super(intake);
         addRequirements(intake);
     }
 
@@ -51,23 +52,23 @@ public class IntakeCommand extends SubsystemCommand {
                 intake.setVoltage(IntakeConstants.CORAL_HOLD_VOLTS);
                 break;
             case "BALL_HOLD":
-                if (Intake.getInstance().getBallSensor() < IntakeConstants.BALL_HOLDING_MIN_DISTANCE)
+                if (RobotContainer.intake.getBallSensor() < IntakeConstants.BALL_HOLDING_MIN_DISTANCE)
                     intake.setVoltage(IntakeConstants.BALL_HOLD_FORWARD_VOLTS);
-                else if (Intake.getInstance().getBallSensor() > IntakeConstants.BALL_HOLDING_MAX_DISTANCE)
+                else if (RobotContainer.intake.getBallSensor() > IntakeConstants.BALL_HOLDING_MAX_DISTANCE)
                     intake.setVoltage(IntakeConstants.BALL_HOLD_BACKWARD_VOLTS);
                 else
                     break;
             case "CORAL_SORTING":
                 sortingCount = 0;
-                if (cycle == true && !Intake.getInstance().getRearSensor()) {
+                if (cycle == true && !RobotContainer.intake.getRearSensor()) {
                     sortingCount++;
                     cycle = false;
                 }
-                if (Intake.getInstance().getRearSensor()) {
+                if (RobotContainer.intake.getRearSensor()) {
                     cycle = true;
                     intake.setVoltage(IntakeConstants.CORAL_SORTING_BACKWARD_VOLTS);
                 }
-                if (!Intake.getInstance().getRearSensor()) {
+                if (!RobotContainer.intake.getRearSensor()) {
                     intake.setVoltage(IntakeConstants.CORAL_SORTING_FORWARD_VOLTS);
                 }
                 break;

@@ -2,12 +2,13 @@ package frc.robot.Commands;
 
 import com.MAutils.RobotControl.SubsystemCommand;
 
+import frc.robot.RobotContainer;
 import frc.robot.RobotControl.SuperStructure;
 import frc.robot.Subsystem.Elevator.Elevator;
 import frc.robot.Subsystem.Elevator.ElevatorConstants;
 
 public class ElevatorCommand extends SubsystemCommand {
-    private static final Elevator elveator = Elevator.getInstance();
+    private static final Elevator elveator = RobotContainer.elevator;
 
     public ElevatorCommand() {
         super(elveator);
@@ -18,7 +19,7 @@ public class ElevatorCommand extends SubsystemCommand {
     public void Automatic() {
         switch (elveator.getCurrentState().stateName) {
             case "IDLE":
-                elveator.setPosition(0);
+                elveator.setPosition(1.);
                 break;
             case "INTAKE":
                 elveator.setPosition(ElevatorConstants.INTAKE_HEIGHT);

@@ -9,6 +9,7 @@ import com.MAutils.Utils.GainConfig;
 import com.ctre.phoenix6.signals.InvertedValue;
 
 import frc.robot.PortMap;
+import frc.robot.RobotContainer;
 
 public class ArmConstants {
 
@@ -30,14 +31,14 @@ public class ArmConstants {
                         .build();
 
                         
-        public static final State IDLE = new State("IDLE", Arm.getInstance());
-        public static final State INTAKE = new State("INTAKE", Arm.getInstance());
-        public static final State CORAL_SCORING = new State("CORAL_SCORING", Arm.getInstance());
-        public static final State BALL_INTAKE = new State("BALL_INTAKE", Arm.getInstance());
-        public static final State BALL_HOLDING = new State("BALL_HOLDING", Arm.getInstance());
-        public static final State BALL_PRESCORING = new State("BALL_PRESCORING", Arm.getInstance());
-        public static final State BALL_SCORING = new State("BALL_SCORING", Arm.getInstance());
-        public static final State CORAL_HOLDING = new State("CORAL_HOLDING", Arm.getInstance());
+        public static final State IDLE = new State("IDLE", RobotContainer.arm);
+        public static final State INTAKE = new State("INTAKE", RobotContainer.arm);
+        public static final State CORAL_SCORING = new State("CORAL_SCORING", RobotContainer.arm);
+        public static final State BALL_INTAKE = new State("BALL_INTAKE", RobotContainer.arm);
+        public static final State BALL_HOLDING = new State("BALL_HOLDING", RobotContainer.arm);
+        public static final State BALL_PRESCORING = new State("BALL_PRESCORING", RobotContainer.arm);
+        public static final State BALL_SCORING = new State("BALL_SCORING", RobotContainer.arm);
+        public static final State CORAL_HOLDING = new State("CORAL_HOLDING", RobotContainer.arm);
 
         // lerner
         public static final double IDLE_ANGLE = 0;

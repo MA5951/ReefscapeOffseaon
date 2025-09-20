@@ -3,11 +3,12 @@ package frc.robot.Commands;
 
 import com.MAutils.RobotControl.SubsystemCommand;
 
+import frc.robot.RobotContainer;
 import frc.robot.Subsystem.Climb.Climb;
 import frc.robot.Subsystem.Climb.ClimbConstants;
 
 public class ClimbingCommand extends SubsystemCommand {
-    private static final Climb climb = Climb.getInstance();
+    private static final Climb climb = RobotContainer.climb;
 
     public ClimbingCommand() {
         super(climb);

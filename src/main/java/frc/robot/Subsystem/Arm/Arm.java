@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
+import frc.robot.RobotContainer;
 import frc.robot.Subsystem.Elevator.Elevator;
 
 public class Arm extends PositionControlledSystem {
@@ -33,7 +34,7 @@ public class Arm extends PositionControlledSystem {
         super.periodic();
         if (!Robot.isReal()) {
             MALog.log("/Simulation/Robot/Gripper Arm",
-                    new Pose3d(0.3, 0, Elevator.getInstance().getPosition()  + 0.47,
+                    new Pose3d(0.3, 0, RobotContainer.elevator.getPosition()  + 0.47,
                             new Rotation3d(0, ConvUtil.DegreesToRadians(-getPosition()), 0)));
         }
     }

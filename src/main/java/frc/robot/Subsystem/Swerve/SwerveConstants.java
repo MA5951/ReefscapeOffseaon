@@ -15,7 +15,9 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import frc.robot.PortMap;
 import frc.robot.RobotContainer;
 import frc.robot.RobotControl.Field;
+import frc.robot.RobotControl.Field.ScoringLocation;
 import frc.robot.RobotControl.SuperStructure;
+import frc.robot.Subsystem.Vision.Vision;
 
 public class SwerveConstants {
 
@@ -36,8 +38,8 @@ public class SwerveConstants {
     public static final PIDController ANGLE_PID_CONTROLLER = new PIDController(0.1, 0, 0)
             .withContinuesInput(-180, 180);
 
-    public static final PIDController RELATIVX_PID_CONTROLLER = new PIDController(5, 0, 0).withTolerance(0.1);
-    public static final PIDController RELATIVY_PID_CONTROLLER = new PIDController(5, 0, 0).withTolerance(0.1);
+    public static final PIDController RELATIVX_PID_CONTROLLER = new PIDController(0.01, 0, 0).withTolerance(2);
+    public static final PIDController RELATIVY_PID_CONTROLLER = new PIDController(0.01, 0, 0).withTolerance(2);
 
     public static final PIDController POSEX_PID_CONTROLLER = new PIDController(4, 0, 0).withTolerance(0.1);
     public static final PIDController POSEY_PID_CONTROLLER = new PIDController(4, 0, 0).withTolerance(0.1);
@@ -69,15 +71,31 @@ public class SwerveConstants {
 
     public static final SwerveState POSE_ALIGN = new SwerveState("POSE_ALIGN")
             .withOnStateEnter(() -> {
+                SuperStructure.updateReefFace();
                 XY_ADJUST_CONTROLLER.withFieldRelative(true);
-                XY_ADJUST_CONTROLLER.withXYSetPoint(Field.getBestMatchingReefFace(PoseEstimator.getCurrentPose()).getAlignPose());
-                ANGLE_ADJUST_CONTROLLER.withSetPoint(Field.getBestMatchingReefFace(PoseEstimator.getCurrentPose()).AbsAngle());
+                XY_ADJUST_CONTROLLER.withXYControllers(POSEX_PID_CONTROLLER, POSEY_PID_CONTROLLER);
+                XY_ADJUST_CONTROLLER.withXYSetPoint(SuperStructure.getXYAdjustSetPoint());
+                ANGLE_ADJUST_CONTROLLER.withSetPoint(SuperStructure.getBestReefFace().AbsAngle());
             })
             .withXY(XY_ADJUST_CONTROLLER)
             .withOmega(ANGLE_ADJUST_CONTROLLER);
 
     public static final SwerveState RELATIV_ALIGN = new SwerveState("RELATIVE_ALIGN")
-            .withOnStateEnter(() -> XY_ADJUST_CONTROLLER.withFieldRelative(false))
+            .withOnStateEnter(() -> {
+            SuperStructure.updateReefFace();
+            ANGLE_ADJUST_CONTROLLER.withSetPoint(SuperStructure.getBestReefFace().AbsAngle());
+            XY_ADJUST_CONTROLLER.withFieldRelative(false);
+            XY_ADJUST_CONTROLLER.withXYControllers(RELATIVX_PID_CONTROLLER, RELATIVY_PID_CONTROLLER);
+            XY_ADJUST_CONTROLLER.withXYSetPoint(SuperStructure.getRelativXYSetPoint());
+                
+            if(SuperStructure.getScoringLocation() == Field.ScoringLocation.RIGHT ){
+                XY_ADJUST_CONTROLLER.withMeasurment(() -> Vision.getInstantce().getLeftPose2d());
+            } else {
+                XY_ADJUST_CONTROLLER.withMeasurment(() -> Vision.getInstantce().getRightPose2d());
+            }
+            
+        
+        })
             .withXY(XY_ADJUST_CONTROLLER)
             .withOmega(ANGLE_ADJUST_CONTROLLER);
 

@@ -9,6 +9,7 @@ import com.MAutils.Utils.GainConfig;
 import com.ctre.phoenix6.signals.InvertedValue;
 
 import frc.robot.PortMap;
+import frc.robot.RobotContainer;
 
 
 public class ElevatorConstants {
@@ -41,15 +42,15 @@ public class ElevatorConstants {
 
     
 
-    public static final State IDLE = new State("IDLE", Elevator.getInstance());
-    public static final State INTAKE = new State("INTAKE", Elevator.getInstance());
-    public static final State SCORING = new State("SCORING", Elevator.getInstance());
-    public static final State BALL_INTAKE = new State("BALL_INTAKE", Elevator.getInstance());
-    public static final State BALL_HOLDING = new State("BALL_HOLDING", Elevator.getInstance());
-    public static final State BALL_PRESCORING = new State("BALL_PRESCORING", Elevator.getInstance());
-    public static final State BALL_SCORING = new State("BALL_SCORING", Elevator.getInstance());
-    public static final State CLOSE = new State("CLOSE", Elevator.getInstance());
-    public static final State HOLD = new State("HOLD", Elevator.getInstance());
+    public static final State IDLE = new State("IDLE", RobotContainer.elevator);
+    public static final State INTAKE = new State("INTAKE", RobotContainer.elevator);
+    public static final State SCORING = new State("SCORING", RobotContainer.elevator);
+    public static final State BALL_INTAKE = new State("BALL_INTAKE", RobotContainer.elevator);
+    public static final State BALL_HOLDING = new State("BALL_HOLDING", RobotContainer.elevator);
+    public static final State BALL_PRESCORING = new State("BALL_PRESCORING", RobotContainer.elevator);
+    public static final State BALL_SCORING = new State("BALL_SCORING", RobotContainer.elevator);
+    public static final State CLOSE = new State("CLOSE", RobotContainer.elevator);
+    public static final State HOLD = new State("HOLD", RobotContainer.elevator);
 
 
     //Lerner

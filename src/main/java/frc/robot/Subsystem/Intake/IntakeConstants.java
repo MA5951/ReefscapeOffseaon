@@ -8,6 +8,7 @@ import com.MAutils.Subsystems.DeafultSubsystems.Constants.PowerSystemConstants;
 import com.ctre.phoenix6.signals.InvertedValue;
 
 import frc.robot.PortMap;
+import frc.robot.RobotContainer;
 
 public class IntakeConstants {
 
@@ -20,15 +21,15 @@ public class IntakeConstants {
                         .isBrake(true)
                         .build(PowerSystemConstants::new);
 
-        public static final State IDLE = new State("IDLE", Intake.getInstance());
-        public static final State CORAL_INTAKE = new State("CORAL_INTAKE", Intake.getInstance());
-        public static final State CORAL_SCORING = new State("CORAL_SCORING", Intake.getInstance());
-        public static final State EJECT = new State("EJECT", Intake.getInstance());
-        public static final State BALL_INTAKE = new State("BALL_INTAKE", Intake.getInstance());
-        public static final State BALL_SCORING = new State("BALL_SCORING", Intake.getInstance());
-        public static final State CORAL_HOLD = new State("CORAL_HOLD", Intake.getInstance());
-        public static final State BALL_HOLD = new State("BALL_HOLD", Intake.getInstance());
-        public static final State CORAL_SORTING = new State("CORAL_SORTING", Intake.getInstance());
+        public static final State IDLE = new State("IDLE", RobotContainer.intake);
+        public static final State CORAL_INTAKE = new State("CORAL_INTAKE", RobotContainer.intake);
+        public static final State CORAL_SCORING = new State("CORAL_SCORING", RobotContainer.intake);
+        public static final State EJECT = new State("EJECT", RobotContainer.intake);
+        public static final State BALL_INTAKE = new State("BALL_INTAKE", RobotContainer.intake);
+        public static final State BALL_SCORING = new State("BALL_SCORING", RobotContainer.intake);
+        public static final State CORAL_HOLD = new State("CORAL_HOLD", RobotContainer.intake);
+        public static final State BALL_HOLD = new State("BALL_HOLD", RobotContainer.intake);
+        public static final State CORAL_SORTING = new State("CORAL_SORTING", RobotContainer.intake);
 
         // Lerner
         public static final double IDLE_VOLTS = 0;

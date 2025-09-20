@@ -8,6 +8,7 @@ import com.MAutils.Utils.GainConfig;
 import com.ctre.phoenix6.signals.InvertedValue;
 
 import frc.robot.PortMap;
+import frc.robot.RobotContainer;
 
 public class ClimbConstants {
 
@@ -30,10 +31,10 @@ public class ClimbConstants {
 
     //lerner
 
-    public static final State IDLE = new State("IDLE", Climb.getInstance());
-    public static final State OPEN = new State("OPEN", Climb.getInstance());   
-    public static final State CLOSE = new State( "CLOSE", Climb.getInstance());
-    public static final State RESET = new State("RESET", Climb.getInstance());
+    public static final State IDLE = new State("IDLE", RobotContainer.climb);
+    public static final State OPEN = new State("OPEN", RobotContainer.climb);   
+    public static final State CLOSE = new State( "CLOSE", RobotContainer.climb);
+    public static final State RESET = new State("RESET", RobotContainer.climb);
 
     public static final double IDLE_ANGLE = 0;
     public static final double OPEN_ANGLE = 0;

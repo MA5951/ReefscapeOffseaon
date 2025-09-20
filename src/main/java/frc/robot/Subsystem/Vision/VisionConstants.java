@@ -20,18 +20,18 @@ public class VisionConstants {
         // ConvUtil.DegreesToRadians(RobotContainer.swerve.getGyro().getGyroData().yaw));
 
         public static final AprilTagCamera frontLeftLimelight = new AprilTagCamera(
-                        new CameraSimIO("limelight-frontl", CameraTypes.Cameras.LL4,
-                                        new Transform3d(-0.15, -0.1, 0.25,
-                                                        new Rotation3d(0, ConvUtil.DegreesToRadians(-15), 0)),
+                        new CameraSimIO("Left", CameraTypes.Cameras.LL4,
+                                        new Transform3d(0, 0.1, 0.15,
+                                                        new Rotation3d(0, ConvUtil.DegreesToRadians(-25), 0)),
                                         () -> SwerveConstants.SWERVE_CONSTANTS.SWERVE_DRIVE_SIMULATION
                                                         .getSimulatedDriveTrainPose()),
                         new FiltersConfig(),
                         () -> ConvUtil.DegreesToRadians(RobotContainer.swerve.getGyro().getGyroData().yaw));
 
         public static final AprilTagCamera fronRightLimelight = new AprilTagCamera(
-                        new CameraSimIO("limelight-frontr", CameraTypes.Cameras.LL4,
-                                        new Transform3d(0.15, -0.1, 0.25,
-                                                        new Rotation3d(0, ConvUtil.DegreesToRadians(-15), 0)),
+                        new CameraSimIO("Right", CameraTypes.Cameras.LL4,
+                                        new Transform3d(0, -0.1, 0.15,
+                                                        new Rotation3d(0, ConvUtil.DegreesToRadians(-25), 0)),
                                         () -> SwerveConstants.SWERVE_CONSTANTS.SWERVE_DRIVE_SIMULATION
                                                         .getSimulatedDriveTrainPose()),
                         new FiltersConfig(),

@@ -13,15 +13,13 @@ import frc.robot.RobotControl.SuperStructure;
 public class Intake extends PowerControlledSystem {
 
     private static Intake intake = null;
-    private final DigitalInput frontSensor;
-    private final DigitalInput rearSensor;
+    // private final DigitalInput frontSensor;
+    // private final DigitalInput rearSensor;
 
     private Intake() {
         super(IntakeConstants.INTAKE_CONSTANTS);
-        System.out.println("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
 
-        frontSensor = new DigitalInput(PortMap.IntakePorts.FRONT_SENSOR);
-        rearSensor = new DigitalInput(PortMap.IntakePorts.REAR_SENSOR);
+        
     }
 
     @Override
@@ -45,11 +43,13 @@ public class Intake extends PowerControlledSystem {
     }
 
     public boolean getRearSensor() {
-        return !rearSensor.get();
+        //return !rearSensor.get();
+        return false;
     }
 
     public boolean getFrontSensor() {
-        return !frontSensor.get();
+        //return !frontSensor.get();
+        return false;
     }
 
     public double getBallSensor() {

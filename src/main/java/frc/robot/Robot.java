@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.MAutils.CanBus.StatusSignalsRunner;
+import com.MAutils.Logger.MALog;
 import com.MAutils.PoseEstimation.PoseEstimator;
 import com.MAutils.Simulation.SimulationManager;
 
@@ -13,12 +14,12 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.RobotControl.SuperStructure;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private final RobotContainer m_robotContainer;
-  private double  i = 0;
 
   public Robot() {
     m_robotContainer = new RobotContainer();
@@ -74,11 +75,13 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    SuperStructure.updateReefFace();
   }
 
   @Override
   public void teleopPeriodic() {
-
+    MALog.log("/Vision/BestReefFace/ TagID",SuperStructure.getBestReefFace().TagID());
   }
 
   @Override

@@ -3,12 +3,13 @@ package frc.robot.Commands;
 
 import com.MAutils.RobotControl.SubsystemCommand;
 
+import frc.robot.RobotContainer;
 import frc.robot.RobotControl.SuperStructure;
 import frc.robot.Subsystem.Arm.Arm;
 import frc.robot.Subsystem.Arm.ArmConstants;
 
 public class ArmCommand extends SubsystemCommand {
-    private static final Arm arm = Arm.getInstance();
+    private static final Arm arm = RobotContainer.arm;
 
     public ArmCommand() {
         super(arm);
@@ -19,7 +20,7 @@ public class ArmCommand extends SubsystemCommand {
     public void Automatic() {
         switch (arm.getCurrentState().stateName) {
             case "IDLE":
-                arm.setPosition(5);
+                arm.setPosition(90);
                 break;
             case "INTAKE":
                 arm.setPosition(ArmConstants.INTAKE_ANGLE);

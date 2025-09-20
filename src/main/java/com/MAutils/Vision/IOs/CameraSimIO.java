@@ -52,6 +52,7 @@ public class CameraSimIO implements VisionCameraIO {
 
     public static VisionSystemSim visionSystemSim;
     private static boolean isRegisterd = false;
+    private static boolean isVisitionRegisters= false;
 
     private final PhotonCamera camera;
     private final PhotonCameraSim cameraSim;
@@ -67,17 +68,31 @@ public class CameraSimIO implements VisionCameraIO {
         this.robotToCamera = robotToCamera;
         this.robotPose = robotPose;
 
-        visionSystemSim = new VisionSystemSim("Main Vision Sim");
-
         try {
             tagLayout = AprilTagFieldLayout.loadFromResource(
                 AprilTagFields.k2025ReefscapeAndyMark.m_resourceFile
             );
-            visionSystemSim.addAprilTags(tagLayout);
         } catch (Exception e) {
             // Fail fast so you actually see the root cause
             throw new RuntimeException("Failed to load AprilTag field layout", e);
         }
+
+        if (!isVisitionRegisters) {
+            visionSystemSim = new VisionSystemSim("Main Vision Sim");
+
+            try {
+                tagLayout = AprilTagFieldLayout.loadFromResource(
+                    AprilTagFields.k2025ReefscapeAndyMark.m_resourceFile
+                );
+                visionSystemSim.addAprilTags(tagLayout);
+            } catch (Exception e) {
+                // Fail fast so you actually see the root cause
+                throw new RuntimeException("Failed to load AprilTag field layout", e);
+            }
+
+            isVisitionRegisters = true;
+        }
+
 
         camera = new PhotonCamera(name);
         cameraSim = new PhotonCameraSim(camera, cameraProps.getSimulationProp());

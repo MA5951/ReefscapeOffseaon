@@ -63,6 +63,11 @@ public class XYAdjustControllerPID extends SwerveController {
         return this;
     }
 
+    public XYAdjustControllerPID withMeasurment(Supplier<Pose2d> measurmentSUpplier) {
+        measurmentSupplier = measurmentSUpplier;
+        return this;
+    }
+
     public void updateSpeeds() {
 
         speeds.vxMetersPerSecond = xController.calculate(measurmentSupplier.get().getX(),

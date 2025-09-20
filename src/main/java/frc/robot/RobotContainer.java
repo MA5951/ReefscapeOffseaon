@@ -13,12 +13,14 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Commands.ArmCommand;
 import frc.robot.Commands.ElevatorCommand;
 import frc.robot.Commands.IntakeCommand;
 import frc.robot.Commands.SwerveTeleopController;
 import frc.robot.RobotControl.Field;
 import frc.robot.RobotControl.SuperStructure;
+import frc.robot.RobotControl.Field.ScoringLocation;
 import frc.robot.Subsystem.Arm.Arm;
 import frc.robot.Subsystem.Climb.Climb;
 import frc.robot.Subsystem.Elevator.Elevator;
@@ -27,6 +29,8 @@ import frc.robot.Subsystem.Intake.IntakeConstants;
 import frc.robot.Subsystem.Swerve.SwerveConstants;
 import frc.robot.Subsystem.Vision.Vision;
 
+import static edu.wpi.first.wpilibj2.command.Commands.run;
+
 public class RobotContainer extends DeafultRobotContainer {
 
    public static final SwerveSystem swerve = SwerveSystem.getInstance(SwerveConstants.SWERVE_CONSTANTS);
@@ -34,13 +38,15 @@ public class RobotContainer extends DeafultRobotContainer {
    public static final Arm arm = Arm.getInstance();
    public static final Intake intake = Intake.getInstance();
    public static final Climb climb = Climb.getInstance();
+   public static final Vision vison = Vision.getInstantce();
    
    public RobotContainer() {
       new Field();
-      new Vision();
+      Vision.getInstantce();
       Field.setAllianceReefFaces(DriverStationUtil.getAlliance());
       configureBindings();
 
+      SuperStructure.setScoringLocation(ScoringLocation.LEFT);
 
 
       CommandScheduler.getInstance().setDefaultCommand(swerve, new SwerveTeleopController());
@@ -91,6 +97,8 @@ public class RobotContainer extends DeafultRobotContainer {
       // need to add open climber and servo open
       T(StateTrigger.T(() -> getDriverController().getActionsUp(), RobotConstants.CLIMBING)
             .withInRobotState(RobotConstants.PRECLIMBING));
+
+      new Trigger(() -> getDriverController().getL2() || getDriverController().getR2()).onTrue(run(() -> SuperStructure.updateReefFace()));
    }
 
    public Command getAutonomousCommand() {
